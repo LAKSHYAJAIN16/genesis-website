@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Poppins } from 'next/font/google';
+import TrophyCube from '../components/TrophyCube';
 
 // Add CSS animations
 const styles = `
@@ -237,8 +238,53 @@ export default function Home() {
         </svg>
       </div>
 
+
+      {/* Hero Section - No title initially */}
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-24">
+        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          {/* Genesis title appears after collision */}
+          <h1 
+            className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
+            style={{
+              transform: `scale(${animationProgress > 0.7 ? 1 : 0.9})`,
+              opacity: animationProgress > 0.7 ? 1 : 0,
+              transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              lineHeight: '1.2',
+              paddingBottom: '0.5rem',
+              minHeight: '120px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            genesis
+          </h1>
+          <p className="text-xl md:text-2xl mb-4 text-gray-300">
+            the first startup micro-accelerator in canada.
+          </p>
+          <div className="mb-12 text-gray-400">
+            <p className="text-lg md:text-xl mb-2">March 15-17, 2024</p>
+            <p className="text-md md:text-lg">Toronto, Ontario</p>
+          </div>
+
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-gradient-to-r from-black to-gray-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform shadow-lg cursor-pointer flex items-center gap-2">
+              register for free
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </button>
+            <button className="border-2 border-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-colors">
+              learn more
+            </button>
+          </div>
+        </div>
+      </main>
+
       {/* Sponsor Ticker */}
-      <div className="fixed top-[100px] left-0 right-0 z-30 bg-black/50 backdrop-blur-sm py-3 overflow-hidden">
+      <section className="relative z-10 py-8 bg-black/50 backdrop-blur-sm overflow-hidden">
         <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
           <div className="flex items-center">
             <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
@@ -277,52 +323,7 @@ export default function Home() {
             <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
           </div>
         </div>
-      </div>
-
-      {/* Hero Section - No title initially */}
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-32">
-        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Genesis title appears after collision */}
-          <h1 
-            className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
-            style={{
-              transform: `scale(${animationProgress > 0.7 ? 1 : 0.9})`,
-              opacity: animationProgress > 0.7 ? 1 : 0,
-              transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              lineHeight: '1.2',
-              paddingBottom: '0.5rem',
-              minHeight: '120px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            genesis
-          </h1>
-          <p className="text-xl md:text-2xl mb-4 text-gray-300">
-            the first startup micro-accelerator in canada.
-          </p>
-          <p className="text-lg md:text-xl mb-12 text-gray-400 max-w-2xl">
-            join us for 48 hours of coding, creativity, and collaboration. build the future, one line of code at a time.
-          </p>
-
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-black to-gray-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform shadow-lg cursor-pointer flex items-center gap-2">
-              register for free
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </button>
-            <button className="border-2 border-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-colors">
-              learn more
-            </button>
-          </div>
-        </div>
-      </main>
-
-
+      </section>
 
       {/* About Section */}
       <section id="about" className="relative z-10 py-20 px-6 bg-black">
@@ -384,6 +385,18 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
             prizes & awards
           </h2>
+          
+          {/* Trophy Section */}
+          <div className="flex flex-col items-center justify-center mb-16">
+            <TrophyCube />
+            <div className="mt-8 text-center">
+              <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+                the trophy
+              </h3>
+              <p className="text-gray-300 mt-2 text-lg">awarded to the winning team</p>
+            </div>
+          </div>
+          
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 backdrop-blur-sm rounded-xl p-8 border border-yellow-400/30 text-center hover:scale-105 transition-transform">
               <div className="text-6xl mb-4">🥇</div>
