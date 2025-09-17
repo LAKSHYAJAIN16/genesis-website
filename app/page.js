@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Poppins } from 'next/font/google';
 import TrophyCube from '../components/TrophyCube';
+import AboutSection from '../components/AboutSection';
 
 // Add CSS animations
 const styles = `
@@ -16,9 +17,42 @@ const styles = `
     50% { transform: translateY(-20px) rotate(180deg); }
   }
   
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
   @keyframes pulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.8; }
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
   }
   
   @keyframes gradientShift {
@@ -41,6 +75,31 @@ const styles = `
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
   }
+  
+  @keyframes fall {
+    0% { transform: translateY(-100px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+  
+  @keyframes glow {
+    0%, 100% { 
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 0.6;
+      transform: scale(1.05);
+    }
+  }
+  
+  .animate-grid { animation: gridMove 20s ease-in-out infinite alternate; }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+  .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+  .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
+  .animate-glow { animation: glow 3s ease-in-out infinite; }
 `;
 
 const poppins = Poppins({
@@ -122,68 +181,78 @@ export default function Home() {
       
 
 
-      {/* Star Background */}
-      <div className="fixed inset-0 pointer-events-none z-10">
-        {[...Array(150)].map((_, i) => {
-          // Use deterministic values based on index to avoid hydration mismatch
-          const seed = i * 9301 + 49297;
-          const random1 = ((seed % 233280) / 233280);
-          const random2 = (((seed * 9301) % 233280) / 233280);
-          const random3 = (((seed * 9301 * 9301) % 233280) / 233280);
-          const random4 = (((seed * 9301 * 9301 * 9301) % 233280) / 233280);
-          const random5 = (((seed * 9301 * 9301 * 9301 * 9301) % 233280) / 233280);
-          
-          return (
-            <div
-              key={i}
-              className="absolute bg-white rounded-full"
-              style={{
-                width: `${random1 * 3 + 1}px`,
-                height: `${random2 * 3 + 1}px`,
-                left: `${random3 * 100}%`,
-                top: `${random4 * 100}%`,
-                opacity: random5 * 0.8 + 0.2,
-                animation: `pulse ${random1 * 4 + 2}s ease-in-out infinite`,
-                animationDelay: `${random2 * 2}s`
-              }}
+      {/* Combined PCB + Shapes + Photos Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
+        
+        
+        {/* Floating Geometric Shapes - positioned to avoid overlaps */}
+        <div className="absolute top-16 left-4 w-16 h-16 border border-white/40 rotate-45 animate-pulse"></div>
+        <div className="absolute top-80 right-8 w-14 h-14 border border-blue-400/50 rounded-full animate-bounce" style={{animationDuration: '4s'}}></div>
+        <div className="absolute bottom-60 left-8 w-12 h-12 border border-green-400/40 rotate-12 animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-16 right-12 w-14 h-14 border border-purple-400/40 rounded-lg rotate-45 animate-bounce" style={{animationDuration: '5s', animationDelay: '3s'}}></div>
+        
+        {/* Code/Business Icons - repositioned to avoid overlaps */}
+        <div className="absolute top-40 left-12 opacity-40">
+          <div className="text-2xl text-blue-400 font-mono animate-pulse">{"{ }"}</div>
+        </div>
+        <div className="absolute top-24 right-24 opacity-35">
+          <div className="text-3xl text-green-400 font-bold animate-bounce" style={{animationDuration: '4s'}}>$</div>
+        </div>
+        <div className="absolute bottom-80 left-16 opacity-40">
+          <div className="text-xl text-cyan-400 font-mono animate-pulse" style={{animationDelay: '1s'}}>~/&gt;</div>
+        </div>
+        <div className="absolute bottom-40 right-4 opacity-30">
+          <div className="text-2xl text-purple-400 animate-bounce" style={{animationDuration: '6s', animationDelay: '2s'}}>📈</div>
+        </div>
+        
+        {/* Entrepreneur Photos - strategically positioned to avoid overlaps */}
+        <div className="absolute top-12 left-60 opacity-45">
+          <div className="w-20 h-20 rounded-lg border border-blue-400/50 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=300&fit=crop&crop=face" 
+              alt="Young entrepreneur coding"
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
             />
-          );
-        })}
-      </div>
-
-
-      {/* Typewriter effect for genesis subtitle */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-40">
-        <div className="text-center mt-32">
-          <div className="text-lg md:text-xl text-gray-400 font-mono">
-            {animationProgress < 0.2 && (
-              <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
-                hackathon_
-              </span>
-            )}
-            {animationProgress >= 0.2 && animationProgress < 0.4 && (
-              <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
-                bootcamp_
-              </span>
-            )}
-            {animationProgress >= 0.4 && animationProgress < 0.6 && (
-              <span className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent">
-                launchpad_
-              </span>
-            )}
-            {animationProgress >= 0.6 && animationProgress < 0.8 && (
-              <span className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
-                incubator_
-              </span>
-            )}
-            {animationProgress >= 0.8 && (
-              <span className="text-gray-400">
-                the first startup micro-accelerator in canada.
-              </span>
-            )}
           </div>
+          <div className="text-xs text-blue-400 mt-1 text-center font-mono">dorm room</div>
+        </div>
+        
+        <div className="absolute top-48 right-40 opacity-45">
+          <div className="w-18 h-18 rounded-full border border-green-400/50 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" 
+              alt="Entrepreneur planning"
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <div className="text-xs text-green-400 mt-1 text-center font-mono">visionary</div>
+        </div>
+        
+        <div className="absolute bottom-24 left-40 opacity-40">
+          <div className="w-24 h-16 rounded border border-purple-400/50 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=300&h=200&fit=crop" 
+              alt="Garage startup"
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <div className="text-xs text-purple-400 mt-1 text-center font-mono">garage</div>
+        </div>
+        
+        <div className="absolute bottom-12 right-60 opacity-40">
+          <div className="w-20 h-20 rounded-lg border border-cyan-400/50 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=300&h=300&fit=crop" 
+              alt="Late night coding"
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </div>
+          <div className="text-xs text-cyan-400 mt-1 text-center font-mono">3am code</div>
         </div>
       </div>
+
+
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-6 md:p-8 bg-black/90 backdrop-blur-sm">
@@ -218,24 +287,35 @@ export default function Home() {
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-24">
         <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {/* Genesis title appears after collision */}
-          <h1 
-            className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
-            style={{
-              transform: `scale(${animationProgress > 0.7 ? 1 : 0.9})`,
-              opacity: animationProgress > 0.7 ? 1 : 0,
-              transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              lineHeight: '1.2',
-              paddingBottom: '0.5rem',
-              minHeight: '120px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            genesis
+          <h1 className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent font-mono">
+            {animationProgress < 0.2 && (
+              <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
+                hackathon_
+              </span>
+            )}
+            {animationProgress >= 0.2 && animationProgress < 0.4 && (
+              <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
+                bootcamp_
+              </span>
+            )}
+            {animationProgress >= 0.4 && animationProgress < 0.6 && (
+              <span className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent">
+                launchpad_
+              </span>
+            )}
+            {animationProgress >= 0.6 && animationProgress < 0.8 && (
+              <span className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
+                incubator_
+              </span>
+            )}
+            {animationProgress >= 0.8 && (
+              <span className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
+                genesis
+              </span>
+            )}
           </h1>
           <p className="text-xl md:text-2xl mb-4 text-gray-300">
-            hackathon. bootcamp. launchpad.
+            the first startup micro-accelerator in canada.
           </p>
           <div className="mb-12 text-gray-400">
             <p className="text-lg md:text-xl mb-2">March 15-17, 2024</p>
@@ -258,9 +338,17 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Sponsor Ticker */}
-      <section className="relative z-10 py-8 bg-black/50 backdrop-blur-sm overflow-hidden">
-        <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
+      {/* Sponsors Section */}
+      <section id="sponsors" className="relative z-10 py-16 bg-black/50 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
+            sponsored by
+          </h2>
+        </div>
+        
+        {/* Sponsor Ticker */}
+        <div className="overflow-hidden">
+          <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
           <div className="flex items-center">
             <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
             <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
@@ -297,34 +385,12 @@ export default function Home() {
             <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
             <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
           </div>
+        </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-20 px-6 bg-black">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            about genesis
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 hover:scale-105 transition-transform">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="text-xl font-bold mb-4 text-white">innovation</h3>
-              <p className="text-gray-300">push the boundaries of technology and create solutions that matter.</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 hover:scale-105 transition-transform">
-              <div className="text-4xl mb-4">🤝</div>
-              <h3 className="text-xl font-bold mb-4 text-white">collaboration</h3>
-              <p className="text-gray-300">work with talented individuals from diverse backgrounds and skill sets.</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 hover:scale-105 transition-transform">
-              <div className="text-4xl mb-4">🏆</div>
-              <h3 className="text-xl font-bold mb-4 text-white">competition</h3>
-              <p className="text-gray-300">compete for amazing prizes and recognition in the tech community.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AboutSection />
 
       {/* Schedule Section */}
       <section id="schedule" className="relative z-10 py-20 px-6 bg-black">
