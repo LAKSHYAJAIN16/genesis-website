@@ -47,14 +47,32 @@ const AboutSection = () => {
         <div className="text-center mb-20">
           <h2 
             ref={(el) => addToRefs(el, 'title')}
-            className={`text-5xl md:text-7xl mb-8 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent leading-tight transition-all duration-1000 ${
+            className={`text-5xl md:text-7xl mb-8 text-white leading-tight transition-all duration-1000 ${
               isVisible.title ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            don't hack. <span className="italic font-serif relative inline-block">
-              <span className="relative z-10">build.</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl animate-pulse"></div>
-              <div className="absolute -inset-2 bg-gradient-to-r from-blue-400/10 via-purple-400/10 to-pink-400/10 rounded-lg animate-glow"></div>
+            don't hack. <span 
+              className="italic font-serif relative inline-block text-6xl md:text-8xl group cursor-pointer" 
+              style={{transform: 'skewX(-8deg)'}}
+            >
+              <span 
+                className="absolute top-0 left-0 group-hover:animate-jitter-1" 
+                style={{color: '#ff0080', transform: 'translate(0px, 0px)'}}
+              >
+                build.
+              </span>
+              <span 
+                className="absolute top-0 left-0 group-hover:animate-jitter-2" 
+                style={{color: '#40e0d0', transform: 'translate(3px, 3px)'}}
+              >
+                build.
+              </span>
+              <span 
+                className="relative z-10 group-hover:animate-jitter-3" 
+                style={{color: '#ff8c00', transform: 'translate(6px, 6px)'}}
+              >
+                build.
+              </span>
             </span>
           </h2>
           <p 
@@ -81,7 +99,7 @@ const AboutSection = () => {
                 <span className="text-white text-xl">1</span>
               </div>
               <div>
-                <h3 className="text-xl text-white mb-2">bootcamp</h3>
+                <h3 className="text-xl text-white mb-2">launchpad</h3>
                 <p className="text-gray-300">Useful workshops by some of the most successful high school entrepreneurs.</p>
               </div>
             </div>

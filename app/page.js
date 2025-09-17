@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Poppins } from 'next/font/google';
 import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
+import Timeline from '../components/Timeline';
 
 // Add CSS animations
 const styles = `
@@ -94,12 +95,88 @@ const styles = `
     }
   }
   
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes glitch-1 {
+    0%, 100% { transform: translate(0px, 0px); }
+    20% { transform: translate(2px, -1px); }
+    40% { transform: translate(-1px, 2px); }
+    60% { transform: translate(3px, 1px); }
+    80% { transform: translate(1px, -2px); }
+  }
+  
+  @keyframes glitch-2 {
+    0%, 100% { transform: translate(3px, 3px); }
+    25% { transform: translate(6px, 1px); }
+    50% { transform: translate(1px, 6px); }
+    75% { transform: translate(7px, 4px); }
+  }
+  
+  @keyframes glitch-3 {
+    0%, 100% { transform: translate(6px, 6px); }
+    15% { transform: translate(9px, 4px); }
+    35% { transform: translate(4px, 9px); }
+    55% { transform: translate(10px, 7px); }
+    75% { transform: translate(7px, 10px); }
+  }
+  
+  @keyframes jitter-1 {
+    0%, 100% { transform: translate(0px, 0px); }
+    10% { transform: translate(9px, -6px); }
+    20% { transform: translate(-6px, 9px); }
+    30% { transform: translate(12px, 6px); }
+    40% { transform: translate(-9px, -12px); }
+    50% { transform: translate(6px, 0px); }
+    60% { transform: translate(-12px, 3px); }
+    70% { transform: translate(3px, 12px); }
+    80% { transform: translate(0px, -9px); }
+    90% { transform: translate(9px, -3px); }
+  }
+  
+  @keyframes jitter-2 {
+    0%, 100% { transform: translate(3px, 3px); }
+    12% { transform: translate(21px, 0px); }
+    24% { transform: translate(-3px, 21px); }
+    36% { transform: translate(24px, 18px); }
+    48% { transform: translate(-6px, -3px); }
+    60% { transform: translate(18px, 3px); }
+    72% { transform: translate(0px, 15px); }
+    84% { transform: translate(15px, 24px); }
+    96% { transform: translate(3px, -6px); }
+  }
+  
+  @keyframes jitter-3 {
+    0%, 100% { transform: translate(6px, 6px); }
+    8% { transform: translate(30px, 6px); }
+    16% { transform: translate(6px, 30px); }
+    24% { transform: translate(33px, 27px); }
+    32% { transform: translate(3px, 3px); }
+    40% { transform: translate(27px, 9px); }
+    48% { transform: translate(9px, 27px); }
+    56% { transform: translate(24px, 33px); }
+    64% { transform: translate(12px, 0px); }
+    72% { transform: translate(36px, 12px); }
+    80% { transform: translate(0px, 24px); }
+    88% { transform: translate(30px, 30px); }
+    96% { transform: translate(6px, 6px); }
+  }
+  
   .animate-grid { animation: gridMove 20s ease-in-out infinite alternate; }
   .animate-float { animation: float 6s ease-in-out infinite; }
   .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
   .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
   .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
   .animate-glow { animation: glow 3s ease-in-out infinite; }
+  .animate-glitch-1 { animation: glitch-1 0.3s ease-in-out infinite; }
+  .animate-glitch-2 { animation: glitch-2 0.4s ease-in-out infinite; }
+  .animate-glitch-3 { animation: glitch-3 0.35s ease-in-out infinite; }
+  .animate-jitter-1 { animation: jitter-1 2s ease-in-out infinite; }
+  .animate-jitter-2 { animation: jitter-2 2.5s ease-in-out infinite; }
+  .animate-jitter-3 { animation: jitter-3 3s ease-in-out infinite; }
 `;
 
 const poppins = Poppins({
@@ -392,33 +469,8 @@ export default function Home() {
       {/* About Section */}
       <AboutSection />
 
-      {/* Schedule Section */}
-      <section id="schedule" className="relative z-10 py-20 px-6 bg-black">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            event schedule
-          </h2>
-          <div className="space-y-6">
-            {[
-              { time: "friday 6:00 pm", event: "registration & check-in", desc: "get your swag and meet fellow hackers" },
-              { time: "friday 7:00 pm", event: "opening ceremony", desc: "kick-off presentation and team formation" },
-              { time: "friday 8:00 pm", event: "hacking begins!", desc: "start building your amazing projects" },
-              { time: "saturday 12:00 pm", event: "lunch & workshops", desc: "refuel and learn new skills" },
-              { time: "sunday 12:00 pm", event: "project submissions", desc: "submit your final projects" },
-              { time: "sunday 3:00 pm", event: "presentations & judging", desc: "show off your creations" },
-              { time: "sunday 5:00 pm", event: "awards ceremony", desc: "celebrate the winners!" }
-            ].map((item, index) => (
-              <div key={index} className="flex items-center space-x-6 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                <div className="text-white font-bold min-w-[140px]">{item.time}</div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-2 text-white">{item.event}</h3>
-                  <p className="text-gray-300">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Timeline Section */}
+      <Timeline />
 
       {/* Prizes Section */}
       <section id="prizes" className="relative z-10 py-20 px-6 bg-black">
