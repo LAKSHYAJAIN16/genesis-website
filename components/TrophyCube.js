@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 
 export default function TrophyCube() {
   const mountRef = useRef(null);
@@ -25,7 +27,7 @@ export default function TrophyCube() {
       0.1,
       1000
     );
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 1.5);
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ 
@@ -35,33 +37,67 @@ export default function TrophyCube() {
     renderer.setSize(canvasWidth, canvasHeight);
     renderer.setClearColor(0x000000, 0);
 
-    // Create cube geometry
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    // Add lighting for better model visibility
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
     
-    // Create materials for each face with different colors
-    const materials = [
-      new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.8 }),
-      new THREE.MeshBasicMaterial({ color: 0xffed4e, transparent: true, opacity: 0.8 }),
-      new THREE.MeshBasicMaterial({ color: 0xffc107, transparent: true, opacity: 0.8 }),
-      new THREE.MeshBasicMaterial({ color: 0xffb300, transparent: true, opacity: 0.8 }),
-      new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.8 }),
-      new THREE.MeshBasicMaterial({ color: 0xffed4e, transparent: true, opacity: 0.8 }),
-    ];
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(10, 10, 5);
+    scene.add(directionalLight);
 
-    // Create cube mesh
-    const cube = new THREE.Mesh(geometry, materials);
-    cube.position.set(0, 0, 0); // Center the cube at origin
-    scene.add(cube);
+    // Variable to store the loaded model
+    let model = null;
 
-    // Add wireframe
-    const wireframeGeometry = new THREE.EdgesGeometry(geometry);
-    const wireframeMaterial = new THREE.LineBasicMaterial({ 
-      color: 0xffffff, 
-      transparent: true, 
-      opacity: 0.3 
+    // Load the 3D model
+    const mtlLoader = new MTLLoader();
+    mtlLoader.load('/model.mtl', (materials) => {
+      materials.preload();
+      
+      const objLoader = new OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.load('/model.obj', (object) => {
+        model = object;
+        
+        // Scale and position the model
+        model.scale.set(0.1, 0.1, 0.1);
+        model.position.set(0, 0, 0);
+        
+        // Apply golden material to all meshes
+        model.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.material = new THREE.MeshPhongMaterial({
+              color: 0xffd700,
+              shininess: 100,
+              transparent: true,
+              opacity: 0.9
+            });
+          }
+        });
+        
+        scene.add(model);
+      }, undefined, (error) => {
+        console.error('Error loading OBJ model:', error);
+        // Fallback to cube if model fails to load
+        createFallbackCube();
+      });
+    }, undefined, (error) => {
+      console.error('Error loading MTL materials:', error);
+      // Fallback to cube if materials fail to load
+      createFallbackCube();
     });
-    const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
-    cube.add(wireframe);
+
+    // Fallback cube function
+    const createFallbackCube = () => {
+      const geometry = new THREE.BoxGeometry(2, 2, 2);
+      const material = new THREE.MeshPhongMaterial({ 
+        color: 0xffd700, 
+        transparent: true, 
+        opacity: 0.8 
+      });
+      model = new THREE.Mesh(geometry, material);
+      model.position.set(0, 0, 0);
+      scene.add(model);
+    };
 
     // Add OrbitControls for interaction
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -104,11 +140,9 @@ export default function TrophyCube() {
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       
-      // Auto-rotate on multiple axes when not hovering
-      if (!isHovering && cube) {
-        cube.rotation.x += 0.005;
-        cube.rotation.y += 0.01;
-        cube.rotation.z += 0.003;
+      // Auto-rotate on Y-axis only when not hovering (natural side-to-side rotation)
+      if (!isHovering && model) {
+        model.rotation.y += 0.01;
       }
       
       controls.update();

@@ -120,7 +120,7 @@ const WorkshopLeaders = () => {
             isVisible.cards ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <div className="flex animate-[scroll-leaders_40s_linear_infinite] hover:[animation-play-state:paused]">
+          <div className="flex animate-scroll-leaders hover:[animation-play-state:paused]">
             {/* First set of cards */}
             <div className="flex space-x-6 mr-6">
               {workshopLeaders.map((leader, index) => (

@@ -6,6 +6,8 @@ import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
 import Timeline from '../components/Timeline';
 import WorkshopLeaders from '../components/WorkshopLeaders';
+import FAQ from '../components/FAQ';
+import Footer from '../components/Footer';
 
 // Add CSS animations
 const styles = `
@@ -183,6 +185,7 @@ const styles = `
   .animate-jitter-1 { animation: jitter-1 2s ease-in-out infinite; }
   .animate-jitter-2 { animation: jitter-2 2.5s ease-in-out infinite; }
   .animate-jitter-3 { animation: jitter-3 3s ease-in-out infinite; }
+  .animate-scroll-leaders { animation: scroll-leaders 40s linear infinite; }
 `;
 
 const poppins = Poppins({
@@ -269,69 +272,92 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
         
         
-        {/* Floating Geometric Shapes - positioned to avoid overlaps */}
-        <div className="absolute top-16 left-4 w-16 h-16 border border-white/40 rotate-45 animate-pulse"></div>
-        <div className="absolute top-80 right-8 w-14 h-14 border border-blue-400/50 rounded-full animate-bounce" style={{animationDuration: '4s'}}></div>
-        <div className="absolute bottom-60 left-8 w-12 h-12 border border-green-400/40 rotate-12 animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-16 right-12 w-14 h-14 border border-purple-400/40 rounded-lg rotate-45 animate-bounce" style={{animationDuration: '5s', animationDelay: '3s'}}></div>
+        {/* Holographic Grid Background */}
+        <div className="absolute inset-0 opacity-25">
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="neonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{stopColor: '#00FFFF', stopOpacity: 0.8}} />
+                <stop offset="50%" style={{stopColor: '#0080FF', stopOpacity: 0.6}} />
+                <stop offset="100%" style={{stopColor: '#8000FF', stopOpacity: 0.4}} />
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
+                <feMerge> 
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            
+            {/* 3D Perspective Grid - Horizontal Lines */}
+            <g stroke="url(#neonGradient)" strokeWidth="0.2" fill="none" filter="url(#glow)">
+              {/* Top section - closer lines */}
+              <line x1="0" y1="20" x2="100" y2="20" className="animate-pulse" style={{animationDelay: '0s'}} />
+              <line x1="5" y1="25" x2="95" y2="25" className="animate-pulse" style={{animationDelay: '0.5s'}} />
+              <line x1="10" y1="30" x2="90" y2="30" className="animate-pulse" style={{animationDelay: '1s'}} />
+              <line x1="15" y1="35" x2="85" y2="35" className="animate-pulse" style={{animationDelay: '1.5s'}} />
+              <line x1="20" y1="40" x2="80" y2="40" className="animate-pulse" style={{animationDelay: '2s'}} />
+              <line x1="25" y1="45" x2="75" y2="45" className="animate-pulse" style={{animationDelay: '2.5s'}} />
+              <line x1="30" y1="50" x2="70" y2="50" className="animate-pulse" style={{animationDelay: '3s'}} />
+              
+              {/* Bottom section - farther lines */}
+              <line x1="35" y1="55" x2="65" y2="55" className="animate-pulse" style={{animationDelay: '0.2s'}} />
+              <line x1="40" y1="60" x2="60" y2="60" className="animate-pulse" style={{animationDelay: '0.7s'}} />
+              <line x1="42" y1="65" x2="58" y2="65" className="animate-pulse" style={{animationDelay: '1.2s'}} />
+              <line x1="44" y1="70" x2="56" y2="70" className="animate-pulse" style={{animationDelay: '1.7s'}} />
+              <line x1="46" y1="75" x2="54" y2="75" className="animate-pulse" style={{animationDelay: '2.2s'}} />
+              <line x1="48" y1="80" x2="52" y2="80" className="animate-pulse" style={{animationDelay: '2.7s'}} />
+            </g>
+            
+            {/* Vertical Grid Lines - Perspective */}
+            <g stroke="url(#neonGradient)" strokeWidth="0.15" fill="none" filter="url(#glow)">
+              <line x1="10" y1="20" x2="35" y2="80" className="animate-pulse" style={{animationDelay: '0.3s'}} />
+              <line x1="20" y1="20" x2="40" y2="80" className="animate-pulse" style={{animationDelay: '0.8s'}} />
+              <line x1="30" y1="20" x2="45" y2="80" className="animate-pulse" style={{animationDelay: '1.3s'}} />
+              <line x1="40" y1="20" x2="48" y2="80" className="animate-pulse" style={{animationDelay: '1.8s'}} />
+              <line x1="50" y1="20" x2="50" y2="80" className="animate-pulse" style={{animationDelay: '2.3s'}} />
+              <line x1="60" y1="20" x2="52" y2="80" className="animate-pulse" style={{animationDelay: '2.8s'}} />
+              <line x1="70" y1="20" x2="55" y2="80" className="animate-pulse" style={{animationDelay: '0.1s'}} />
+              <line x1="80" y1="20" x2="60" y2="80" className="animate-pulse" style={{animationDelay: '0.6s'}} />
+              <line x1="90" y1="20" x2="65" y2="80" className="animate-pulse" style={{animationDelay: '1.1s'}} />
+            </g>
+            
+            {/* Glowing intersection points */}
+            <g fill="url(#neonGradient)" filter="url(#glow)">
+              <circle cx="30" cy="30" r="0.5" className="animate-pulse" style={{animationDelay: '1s'}} />
+              <circle cx="50" cy="40" r="0.8" className="animate-pulse" style={{animationDelay: '2s'}} />
+              <circle cx="70" cy="35" r="0.6" className="animate-pulse" style={{animationDelay: '0.5s'}} />
+              <circle cx="40" cy="50" r="0.7" className="animate-pulse" style={{animationDelay: '1.5s'}} />
+              <circle cx="60" cy="45" r="0.5" className="animate-pulse" style={{animationDelay: '2.5s'}} />
+              <circle cx="50" cy="60" r="0.9" className="animate-pulse" style={{animationDelay: '3s'}} />
+            </g>
+          </svg>
+        </div>
         
-        {/* Code/Business Icons - repositioned to avoid overlaps */}
-        <div className="absolute top-40 left-12 opacity-40">
-          <div className="text-2xl text-blue-400 font-mono animate-pulse">{"{ }"}</div>
-        </div>
-        <div className="absolute top-24 right-24 opacity-35">
-          <div className="text-3xl text-green-400 font-bold animate-bounce" style={{animationDuration: '4s'}}>$</div>
-        </div>
-        <div className="absolute bottom-80 left-16 opacity-40">
-          <div className="text-xl text-cyan-400 font-mono animate-pulse" style={{animationDelay: '1s'}}>~/&gt;</div>
-        </div>
-        <div className="absolute bottom-40 right-4 opacity-30">
-          <div className="text-2xl text-purple-400 animate-bounce" style={{animationDuration: '6s', animationDelay: '2s'}}>📈</div>
-        </div>
-        
-        {/* Entrepreneur Photos - strategically positioned to avoid overlaps */}
-        <div className="absolute top-12 left-60 opacity-45">
-          <div className="w-20 h-20 rounded-lg border border-blue-400/50 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=300&fit=crop&crop=face" 
-              alt="Young entrepreneur coding"
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            />
+        {/* Floating Holographic Elements */}
+        <div className="absolute top-32 right-20 opacity-40">
+          <div className="w-16 h-16 border-2 border-cyan-400 rounded-lg animate-float" style={{filter: 'drop-shadow(0 0 10px #00FFFF)'}}>
+            <div className="w-full h-full bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-lg animate-pulse"></div>
           </div>
-          <div className="text-xs text-blue-400 mt-1 text-center font-mono">dorm room</div>
         </div>
         
-        <div className="absolute top-48 right-40 opacity-45">
-          <div className="w-18 h-18 rounded-full border border-green-400/50 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" 
-              alt="Entrepreneur planning"
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            />
+        <div className="absolute bottom-32 left-20 opacity-40">
+          <div className="w-12 h-12 border-2 border-purple-400 rounded-full animate-float" style={{filter: 'drop-shadow(0 0 8px #8000FF)', animationDelay: '2s'}}>
+            <div className="w-full h-full bg-gradient-to-br from-purple-400/20 to-pink-500/20 rounded-full animate-pulse"></div>
           </div>
-          <div className="text-xs text-green-400 mt-1 text-center font-mono">visionary</div>
         </div>
         
-        <div className="absolute bottom-24 left-40 opacity-40">
-          <div className="w-24 h-16 rounded border border-purple-400/50 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=300&h=200&fit=crop" 
-              alt="Garage startup"
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            />
+        <div className="absolute top-60 left-1/3 opacity-30">
+          <div className="w-8 h-20 border-2 border-blue-400 rounded animate-float" style={{filter: 'drop-shadow(0 0 6px #0080FF)', animationDelay: '1s'}}>
+            <div className="w-full h-full bg-gradient-to-t from-blue-400/20 to-cyan-500/20 rounded animate-pulse"></div>
           </div>
-          <div className="text-xs text-purple-400 mt-1 text-center font-mono">garage</div>
         </div>
         
-        <div className="absolute bottom-12 right-60 opacity-40">
-          <div className="w-20 h-20 rounded-lg border border-cyan-400/50 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=300&h=300&fit=crop" 
-              alt="Late night coding"
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            />
+        <div className="absolute bottom-48 right-1/4 opacity-35">
+          <div className="w-14 h-8 border-2 border-teal-400 rounded-lg animate-float" style={{filter: 'drop-shadow(0 0 7px #14B8A6)', animationDelay: '3s'}}>
+            <div className="w-full h-full bg-gradient-to-r from-teal-400/20 to-cyan-400/20 rounded-lg animate-pulse"></div>
           </div>
-          <div className="text-xs text-cyan-400 mt-1 text-center font-mono">3am code</div>
         </div>
       </div>
 
@@ -339,19 +365,35 @@ export default function Home() {
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-6 md:p-8 bg-black/90 backdrop-blur-sm">
-        <div className="text-2xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+        <div className="text-2xl bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
           genesis
         </div>
         <div className="hidden md:flex space-x-8">
-          <a href="#about" className="hover:text-gray-400 transition-colors">about</a>
-          <a href="#schedule" className="hover:text-gray-400 transition-colors">schedule</a>
-          <a href="#prizes" className="hover:text-gray-400 transition-colors">prizes</a>
-          <a href="#sponsors" className="hover:text-gray-400 transition-colors">sponsors</a>
+          <a href="#about" className="relative group hover:text-gray-400 transition-colors">
+            about
+            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
+          </a>
+          <a href="#schedule" className="relative group hover:text-gray-400 transition-colors">
+            schedule
+            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></div>
+          </a>
+          <a href="#prizes" className="relative group hover:text-gray-400 transition-colors">
+            prizes
+            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></div>
+          </a>
+          <a href="#faq" className="relative group hover:text-gray-400 transition-colors">
+            faq
+            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-400 to-orange-400 group-hover:w-full transition-all duration-300"></div>
+          </a>
+          <a href="#sponsors" className="relative group hover:text-gray-400 transition-colors">
+            sponsors
+            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-cyan-400 group-hover:w-full transition-all duration-300"></div>
+          </a>
         </div>
         <a href="https://form.jotform.com/252578355100252" target="_blank">
           <button className="bg-gradient-to-r from-white to-gray-200 text-black px-6 py-2 rounded-full font-semibold hover:scale-105 transition-transform cursor-pointer flex items-center gap-2">
-            register now
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            register
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </button>
@@ -475,6 +517,9 @@ export default function Home() {
       {/* Workshop Leaders Section */}
       <WorkshopLeaders />
 
+      {/* FAQ Section */}
+      <FAQ />
+
       {/* Prizes Section */}
       <section id="prizes" className="relative z-10 py-20 px-6 bg-black">
         <div className="max-w-6xl mx-auto">
@@ -522,24 +567,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 py-12 px-6 bg-black border-t border-white/20">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="text-3xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            genesis
-          </div>
-          <p className="text-gray-300 mb-6">ready to create the future?</p>
-          <div className="flex justify-center space-x-6 mb-8">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">twitter</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">discord</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">instagram</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">linkedin</a>
-          </div>
-          <button className="bg-gradient-to-r from-white to-gray-200 text-black px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform shadow-lg">
-            join genesis 2024
-          </button>
-          <p className="text-gray-400 mt-8">© 2024 genesis hackathon. all rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
