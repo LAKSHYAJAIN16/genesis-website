@@ -152,64 +152,37 @@ export default function Home() {
       </div>
 
 
-      {/* Corner texts that animate to center */}
-<div className="fixed inset-0 pointer-events-none z-50 overflow-visible">
-        {/* hackathon - Top Left */}
-        <div 
-          className="absolute text-3xl md:text-4xl font-bold bg-gradient-to-r from-red-400 via-red-300 to-red-500 bg-clip-text text-transparent transition-all duration-2000 ease-out"
-          style={{
-            left: `${getCornerPosition('topLeft', animationProgress).x}%`,
-            top: `${getCornerPosition('topLeft', animationProgress).y}%`,
-            transform: `translate(-50%, -50%) scale(${animationProgress > 0.7 ? 0 : 1})`,
-            opacity: animationProgress > 0.7 ? 0 : 1,
-            display: animationProgress > 0.7 ? 'none' : 'block'
-          }}
-        >
-          hackathon
+      {/* Typewriter effect for genesis subtitle */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-40">
+        <div className="text-center mt-32">
+          <div className="text-lg md:text-xl text-gray-400 font-mono">
+            {animationProgress < 0.2 && (
+              <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
+                hackathon_
+              </span>
+            )}
+            {animationProgress >= 0.2 && animationProgress < 0.4 && (
+              <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
+                bootcamp_
+              </span>
+            )}
+            {animationProgress >= 0.4 && animationProgress < 0.6 && (
+              <span className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent">
+                launchpad_
+              </span>
+            )}
+            {animationProgress >= 0.6 && animationProgress < 0.8 && (
+              <span className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
+                incubator_
+              </span>
+            )}
+            {animationProgress >= 0.8 && (
+              <span className="text-gray-400">
+                the first startup micro-accelerator in canada.
+              </span>
+            )}
+          </div>
         </div>
-
-        {/* bootcamp - Top Right */}
-        <div 
-          className="absolute text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 bg-clip-text text-transparent transition-all duration-2000 ease-out"
-          style={{
-            left: `${getCornerPosition('topRight', animationProgress).x}%`,
-            top: `${getCornerPosition('topRight', animationProgress).y}%`,
-            transform: `translate(-50%, -50%) scale(${animationProgress > 0.7 ? 0 : 1})`,
-            opacity: animationProgress > 0.7 ? 0 : 1,
-            display: animationProgress > 0.7 ? 'none' : 'block'
-          }}
-        >
-          bootcamp
-        </div>
-
-        {/* launchpad - Bottom Left */}
-        <div 
-          className="absolute text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-400 via-green-300 to-green-500 bg-clip-text text-transparent transition-all duration-2000 ease-out"
-          style={{
-            left: `${getCornerPosition('bottomLeft', animationProgress).x}%`,
-            top: `${getCornerPosition('bottomLeft', animationProgress).y}%`,
-            transform: `translate(-50%, -50%) scale(${animationProgress > 0.7 ? 0 : 1})`,
-            opacity: animationProgress > 0.7 ? 0 : 1,
-            display: animationProgress > 0.7 ? 'none' : 'block'
-          }}
-        >
-          launchpad
-        </div>
-
-        {/* incubator - Bottom Right */}
-        <div 
-          className="absolute text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-purple-300 to-purple-500 bg-clip-text text-transparent transition-all duration-2000 ease-out"
-          style={{
-            left: `${getCornerPosition('bottomRight', animationProgress).x}%`,
-            top: `${getCornerPosition('bottomRight', animationProgress).y}%`,
-            transform: `translate(-50%, -50%) scale(${animationProgress > 0.7 ? 0 : 1})`,
-            opacity: animationProgress > 0.7 ? 0 : 1,
-            display: animationProgress > 0.7 ? 'none' : 'block'
-          }}
-        >
-          incubator
-        </div>
-        
       </div>
 
       {/* Navigation */}
@@ -223,12 +196,14 @@ export default function Home() {
           <a href="#prizes" className="hover:text-gray-400 transition-colors">prizes</a>
           <a href="#sponsors" className="hover:text-gray-400 transition-colors">sponsors</a>
         </div>
-        <button className="bg-gradient-to-r from-white to-gray-200 text-black px-6 py-2 rounded-full font-semibold hover:scale-105 transition-transform cursor-pointer flex items-center gap-2">
-          register now
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </button>
+        <a href="https://form.jotform.com/252578355100252" target="_blank">
+          <button className="bg-gradient-to-r from-white to-gray-200 text-black px-6 py-2 rounded-full font-semibold hover:scale-105 transition-transform cursor-pointer flex items-center gap-2">
+            register now
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </button>
+        </a>
       </nav>
       
       {/* Jagged separator line */}
@@ -260,7 +235,7 @@ export default function Home() {
             genesis
           </h1>
           <p className="text-xl md:text-2xl mb-4 text-gray-300">
-            the first startup micro-accelerator in canada.
+            hackathon. bootcamp. launchpad.
           </p>
           <div className="mb-12 text-gray-400">
             <p className="text-lg md:text-xl mb-2">March 15-17, 2024</p>
@@ -387,13 +362,18 @@ export default function Home() {
           </h2>
           
           {/* Trophy Section */}
-          <div className="flex flex-col items-center justify-center mb-16">
+          <div className="flex items-center justify-center gap-12 mb-16">
             <TrophyCube />
-            <div className="mt-8 text-center">
-              <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+            <div className="w-1/2 pl-8">
+              <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-6">
                 the trophy
               </h3>
-              <p className="text-gray-300 mt-2 text-lg">awarded to the winning team</p>
+              <div className="space-y-4 text-gray-300">
+                <p className="text-lg">A custom-designed golden trophy awarded to the winning team of Genesis 2024.</p>
+                <p>This prestigious award represents innovation, creativity, and technical excellence in the startup ecosystem.</p>
+                <p>The trophy features a modern geometric design with premium gold finish, symbolizing the cutting-edge nature of the competition.</p>
+                <p className="text-yellow-400 font-semibold">Interactive 3D model - click and drag to rotate!</p>
+              </div>
             </div>
           </div>
           
