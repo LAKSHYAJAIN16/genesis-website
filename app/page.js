@@ -5,6 +5,7 @@ import { Poppins } from 'next/font/google';
 import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
 import Timeline from '../components/Timeline';
+import WorkshopLeaders from '../components/WorkshopLeaders';
 
 // Add CSS animations
 const styles = `
@@ -82,6 +83,11 @@ const styles = `
     10% { opacity: 1; }
     90% { opacity: 1; }
     100% { transform: translateY(100vh); opacity: 0; }
+  }
+  
+  @keyframes scroll-leaders {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
   }
   
   @keyframes glow {
@@ -360,8 +366,52 @@ export default function Home() {
       </div>
 
 
+      {/* Sponsors Ticker */}
+      <div className="relative z-10 py-8 bg-black/30 backdrop-blur-sm">
+        <div className="overflow-hidden">
+          <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
+          <div className="flex items-center">
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg">🍎</div>
+            <div className="mx-4 h-8 w-20 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">META</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AMZ</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NV</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">T</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AI</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">GH</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">▲</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">S</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">F</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">N</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">D</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
+          </div>
+          <div className="flex items-center">
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg">🍎</div>
+            <div className="mx-4 h-8 w-20 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">META</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AMZ</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NV</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">T</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AI</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">GH</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">▲</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">S</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">F</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">N</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">D</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
+            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
+          </div>
+        </div>
+        </div>
+      </div>
+
       {/* Hero Section - No title initially */}
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-24">
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8">
         <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {/* Genesis title appears after collision */}
           <h1 className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent font-mono">
@@ -415,62 +465,15 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Sponsors Section */}
-      <section id="sponsors" className="relative z-10 py-16 bg-black/50 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
-            sponsored by
-          </h2>
-        </div>
-        
-        {/* Sponsor Ticker */}
-        <div className="overflow-hidden">
-          <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
-          <div className="flex items-center">
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg">🍎</div>
-            <div className="mx-4 h-8 w-20 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">META</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AMZ</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NV</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">T</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AI</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">GH</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">▲</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">S</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">F</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">N</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">D</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
-          </div>
-          <div className="flex items-center">
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg">🍎</div>
-            <div className="mx-4 h-8 w-20 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">META</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AMZ</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NV</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">T</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AI</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">GH</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">▲</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">S</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">F</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">N</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">D</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
-          </div>
-        </div>
-        </div>
-      </section>
 
       {/* About Section */}
       <AboutSection />
 
       {/* Timeline Section */}
       <Timeline />
+
+      {/* Workshop Leaders Section */}
+      <WorkshopLeaders />
 
       {/* Prizes Section */}
       <section id="prizes" className="relative z-10 py-20 px-6 bg-black">

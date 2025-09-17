@@ -40,57 +40,6 @@ const Timeline = () => {
     }
   };
 
-  const timelineData = [
-    {
-      hour: "fri 6pm",
-      title: "check-in & networking",
-      description: "Registration, swag pickup, and meet your fellow builders",
-      icon: "🎯",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      hour: "fri 8pm",
-      title: "opening ceremony",
-      description: "Keynote speakers, rules overview, and team formation",
-      icon: "🚀",
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      hour: "fri 10pm",
-      title: "ideation workshops",
-      description: "Brainstorm sessions and market validation techniques",
-      icon: "💡",
-      color: "from-yellow-500 to-orange-500"
-    },
-    {
-      hour: "sat 12pm",
-      title: "building & mentorship",
-      description: "Intensive development with 1-on-1 mentor guidance",
-      icon: "⚡",
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      hour: "sat 8pm",
-      title: "pitch workshops",
-      description: "Learn to craft compelling presentations and demos",
-      icon: "📈",
-      color: "from-indigo-500 to-purple-500"
-    },
-    {
-      hour: "sun 2pm",
-      title: "final presentations",
-      description: "Demo your startup to judges and the community",
-      icon: "🎤",
-      color: "from-pink-500 to-rose-500"
-    },
-    {
-      hour: "sun 5pm",
-      title: "awards & celebration",
-      description: "Winner announcements and closing ceremony",
-      icon: "🏆",
-      color: "from-yellow-400 to-red-500"
-    }
-  ];
 
   return (
     <section id="timeline" className="relative z-10 py-32 px-6 bg-gradient-to-b from-black via-gray-900 to-black" ref={sectionRef}>
@@ -114,44 +63,116 @@ const Timeline = () => {
           </p>
         </div>
 
-        {/* Timeline Container */}
-        <div className="relative">
-          {/* Central Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 rounded-full"></div>
-          
-          {/* Timeline Items */}
-          <div className="space-y-16">
-            {timelineData.map((item, index) => (
-              <div
-                key={index}
-                ref={(el) => addToRefs(el, `item${index}`)}
-                className={`relative flex items-center transition-all duration-1000 ${
-                  isVisible[`item${index}`] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-                } ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                {/* Content Card */}
-                <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-                  <div className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:scale-105 transition-transform duration-300 ${
-                    index % 2 === 0 ? 'text-right' : 'text-left'
-                  }`}>
-                    <div className={`flex items-center ${index % 2 === 0 ? 'justify-end' : 'justify-start'} mb-4`}>
-                      <div className={`w-12 h-12 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center text-2xl mr-3`}>
-                        {item.icon}
-                      </div>
-                      <span className="text-sm font-mono text-gray-400 bg-gray-800 px-3 py-1 rounded-full">
-                        {item.hour}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-gray-300">{item.description}</p>
-                  </div>
+        {/* Compact Grid Format */}
+        <div className="grid md:grid-cols-3 gap-6 mb-12">
+          {/* Friday */}
+          <div 
+            ref={(el) => addToRefs(el, 'friday')}
+            className={`bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-400/30 transition-all duration-1000 ${
+              isVisible.friday ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
+            <h3 className="text-2xl font-bold text-blue-400 mb-4 flex items-center">
+              <span className="text-3xl mr-3">🌙</span>
+              friday night
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">🎯</span>
+                <div>
+                  <div className="text-white font-semibold">6pm - check-in</div>
+                  <div className="text-gray-300 text-sm">registration & networking</div>
                 </div>
-
-                {/* Central Node */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full border-4 border-gray-900 z-10 animate-pulse"></div>
               </div>
-            ))}
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">🚀</span>
+                <div>
+                  <div className="text-white font-semibold">8pm - kickoff</div>
+                  <div className="text-gray-300 text-sm">opening ceremony</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">💡</span>
+                <div>
+                  <div className="text-white font-semibold">10pm - ideation</div>
+                  <div className="text-gray-300 text-sm">brainstorm & validate</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Saturday */}
+          <div 
+            ref={(el) => addToRefs(el, 'saturday')}
+            className={`bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-purple-400/30 transition-all duration-1000 ${
+              isVisible.saturday ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ transitionDelay: '0.2s' }}
+          >
+            <h3 className="text-2xl font-bold text-purple-400 mb-4 flex items-center">
+              <span className="text-3xl mr-3">⚡</span>
+              saturday
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">🔨</span>
+                <div>
+                  <div className="text-white font-semibold">all day - building</div>
+                  <div className="text-gray-300 text-sm">intensive development</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">👥</span>
+                <div>
+                  <div className="text-white font-semibold">mentorship</div>
+                  <div className="text-gray-300 text-sm">1-on-1 guidance</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">📈</span>
+                <div>
+                  <div className="text-white font-semibold">8pm - pitch prep</div>
+                  <div className="text-gray-300 text-sm">presentation skills</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sunday */}
+          <div 
+            ref={(el) => addToRefs(el, 'sunday')}
+            className={`bg-gradient-to-br from-pink-500/20 to-orange-500/20 backdrop-blur-sm rounded-2xl p-6 border border-pink-400/30 transition-all duration-1000 ${
+              isVisible.sunday ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ transitionDelay: '0.4s' }}
+          >
+            <h3 className="text-2xl font-bold text-pink-400 mb-4 flex items-center">
+              <span className="text-3xl mr-3">🏆</span>
+              sunday
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">🎤</span>
+                <div>
+                  <div className="text-white font-semibold">2pm - demos</div>
+                  <div className="text-gray-300 text-sm">final presentations</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">⭐</span>
+                <div>
+                  <div className="text-white font-semibold">4pm - judging</div>
+                  <div className="text-gray-300 text-sm">evaluation period</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">🎉</span>
+                <div>
+                  <div className="text-white font-semibold">5pm - awards</div>
+                  <div className="text-gray-300 text-sm">winners & celebration</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
