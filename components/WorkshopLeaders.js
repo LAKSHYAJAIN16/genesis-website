@@ -92,7 +92,7 @@ const WorkshopLeaders = () => {
   ];
 
   return (
-    <section className="relative z-10 py-32 px-6 bg-gradient-to-b from-black via-indigo-900/20 to-black" ref={sectionRef}>
+    <section className="relative z-10 py-32 px-6 bg-gradient-to-b from-black via-gray-900 to-black" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div 
@@ -102,7 +102,7 @@ const WorkshopLeaders = () => {
           }`}
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-8">
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
               workshop
             </span>
             <br />
@@ -129,7 +129,7 @@ const WorkshopLeaders = () => {
                   className="flex-shrink-0 w-80 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:scale-105 transition-transform duration-300"
                 >
                   <div className="flex items-start space-x-4 mb-4">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-indigo-400/50">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-blue-400/50">
                       <img 
                         src={leader.image}
                         alt={leader.name}
@@ -138,15 +138,15 @@ const WorkshopLeaders = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-white mb-1">{leader.name}</h3>
-                      <p className="text-indigo-400 font-semibold text-sm">{leader.role}</p>
+                      <p className="text-blue-400 font-semibold text-sm">{leader.role}</p>
                       <p className="text-gray-400 text-sm">{leader.company}</p>
                     </div>
                   </div>
                   <p className="text-gray-300 text-sm mb-4 leading-relaxed">
                     {leader.description}
                   </p>
-                  <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-lg px-3 py-2">
-                    <span className="text-indigo-300 text-xs font-semibold">
+                  <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg px-3 py-2">
+                    <span className="text-blue-300 text-xs font-semibold">
                       {leader.expertise}
                     </span>
                   </div>
@@ -162,7 +162,7 @@ const WorkshopLeaders = () => {
                   className="flex-shrink-0 w-80 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:scale-105 transition-transform duration-300"
                 >
                   <div className="flex items-start space-x-4 mb-4">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-indigo-400/50">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-blue-400/50">
                       <img 
                         src={leader.image}
                         alt={leader.name}
@@ -171,15 +171,15 @@ const WorkshopLeaders = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-white mb-1">{leader.name}</h3>
-                      <p className="text-indigo-400 font-semibold text-sm">{leader.role}</p>
+                      <p className="text-blue-400 font-semibold text-sm">{leader.role}</p>
                       <p className="text-gray-400 text-sm">{leader.company}</p>
                     </div>
                   </div>
                   <p className="text-gray-300 text-sm mb-4 leading-relaxed">
                     {leader.description}
                   </p>
-                  <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-lg px-3 py-2">
-                    <span className="text-indigo-300 text-xs font-semibold">
+                  <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-lg px-3 py-2">
+                    <span className="text-blue-300 text-xs font-semibold">
                       {leader.expertise}
                     </span>
                   </div>
@@ -189,23 +189,6 @@ const WorkshopLeaders = () => {
           </div>
         </div>
 
-        {/* Bottom CTA */}
-        <div 
-          ref={(el) => addToRefs(el, 'cta')}
-          className={`text-center mt-16 transition-all duration-1000 ${
-            isVisible.cta ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-          }`}
-        >
-          <div className="bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-8 border border-indigo-400/30">
-            <h3 className="text-3xl font-bold text-white mb-4">learn from the best</h3>
-            <p className="text-lg text-gray-200 mb-6">
-              Get personalized mentorship and hands-on guidance from industry leaders
-            </p>
-            <button className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform duration-300">
-              Meet the Team
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   );

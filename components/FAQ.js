@@ -179,10 +179,10 @@ const FAQ = () => {
               key={index}
               ref={(el) => addToRefs(el, `question-${index}`)}
               onClick={() => toggleFAQ(index)}
-              className={`text-left bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+              className={`text-left text-white px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
                 openFAQ === index 
                   ? 'border-orange-400 bg-orange-400/20 shadow-lg shadow-orange-400/20' 
-                  : 'border-white/20 hover:bg-white/20 hover:border-orange-400/30'
+                  : 'border-white/20 hover:border-orange-400/30'
               } ${isVisible[`question-${index}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transitionDelay: `${index * 0.1}s` }}
             >
@@ -196,7 +196,7 @@ const FAQ = () => {
         {/* Chat Interface */}
         {openFAQ !== null && (
           <div 
-            className="max-w-3xl mx-auto bg-black/40 backdrop-blur-md rounded-3xl border border-white/20 p-8 shadow-2xl"
+            className="max-w-3xl mx-auto bg-black rounded-3xl border border-white/20 p-8 shadow-2xl"
             ref={(el) => addToRefs(el, 'chat')}
           >
             {/* Chat Header */}
@@ -215,7 +215,7 @@ const FAQ = () => {
               </div>
               <button
                 onClick={() => setOpenFAQ(null)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer"
               >
                 <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -246,7 +246,7 @@ const FAQ = () => {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-pink-400 flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">G</span>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm text-gray-100 px-6 py-4 rounded-2xl rounded-bl-sm relative border border-white/20 shadow-lg">
+                  <div className="bg-black text-gray-100 px-6 py-4 rounded-2xl rounded-bl-sm relative border border-white/20 shadow-lg">
                     {isTyping ? (
                       <div className="flex space-x-1 py-2">
                         <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
@@ -256,7 +256,7 @@ const FAQ = () => {
                     ) : (
                       <p className="text-sm leading-relaxed">{displayedText}{showCursor && <span className="animate-pulse">|</span>}</p>
                     )}
-                    <div className="absolute bottom-0 left-0 w-0 h-0 border-r-8 border-r-white/10 border-t-8 border-t-transparent"></div>
+                    <div className="absolute bottom-0 left-0 w-0 h-0 border-r-8 border-r-black border-t-8 border-t-transparent"></div>
                   </div>
                 </div>
               </div>
@@ -265,28 +265,6 @@ const FAQ = () => {
           </div>
         )}
 
-        {/* Bottom CTA */}
-        <div 
-          ref={(el) => addToRefs(el, 'cta')}
-          className={`text-center mt-16 transition-all duration-1000 ${
-            isVisible.cta ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-          }`}
-        >
-          <div className="bg-gradient-to-r from-orange-500/20 via-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-2xl p-8 border border-orange-400/30">
-            <h3 className="text-3xl font-bold text-white mb-4">Still have questions?</h3>
-            <p className="text-lg text-gray-200 mb-6">
-              Reach out to our team - we're here to help make Genesis an amazing experience for you!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:hello@genesis.ca" className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform duration-300">
-                Email Us
-              </a>
-              <a href="https://form.jotform.com/252578355100252" target="_blank" className="border-2 border-orange-400 text-orange-400 px-8 py-4 rounded-xl font-bold text-lg hover:bg-orange-400 hover:text-black transition-all duration-300">
-                Register Now
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -81,7 +81,7 @@ const AboutSection = () => {
               isVisible.subtitle ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            Genesis is the first high school <span className="text-blue-400 font-semibold">buildathon</span> — where raw ideas transform into validated startups in just 48 hours.
+            Genesis is the first high school <span className="text-blue-400 font-semibold">buildathon</span>—where you go from idea to startup in just 48 hours.
           </p>
         </div>
 
@@ -100,7 +100,7 @@ const AboutSection = () => {
               </div>
               <div>
                 <h3 className="text-xl text-white mb-2">launchpad</h3>
-                <p className="text-gray-300">Useful workshops by some of the most successful high school entrepreneurs.</p>
+                <p className="text-gray-300">On-the-spot business incorporation, professional launch videos and real-world resources.</p>
               </div>
             </div>
             
@@ -114,8 +114,8 @@ const AboutSection = () => {
                 <span className="text-white text-xl">2</span>
               </div>
               <div>
-                <h3 className="text-xl text-white mb-2">startup launchpad</h3>
-                <p className="text-gray-300">On-the-spot business incorporation, professional launch videos and real-world resources.</p>
+                <h3 className="text-xl text-white mb-2">bootcamp</h3>
+                <p className="text-gray-300">Workshops by some of the most successful high school entrepreneurs.</p>
               </div>
             </div>
             
@@ -138,7 +138,7 @@ const AboutSection = () => {
           {/* Right: Outcome Promise */}
           <div 
             ref={(el) => addToRefs(el, 'outcomes')}
-            className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:scale-105 transition-all duration-1000 delay-400 ${
+            className={`bg-black rounded-2xl p-8 border border-white/20 hover:scale-105 transition-all duration-1000 delay-400 ${
               isVisible.outcomes ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
             }`}
           >
@@ -146,9 +146,9 @@ const AboutSection = () => {
             <div className="space-y-4">
               {[
                 'working MVP prototype',
-                'complete business plan', 
+                'professional launch video', 
                 'incorporated company (optional)',
-                'professional product media',
+                'rudimentary business plan',
                 'network of founders & mentors'
               ].map((item, index) => (
                 <div 

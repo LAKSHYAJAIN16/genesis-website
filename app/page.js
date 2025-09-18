@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { Poppins } from 'next/font/google';
 import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
-import Timeline from '../components/Timeline';
-import WorkshopLeaders from '../components/WorkshopLeaders';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 
@@ -373,10 +371,6 @@ export default function Home() {
             about
             <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
           </a>
-          <a href="#schedule" className="relative group hover:text-gray-400 transition-colors">
-            schedule
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></div>
-          </a>
           <a href="#prizes" className="relative group hover:text-gray-400 transition-colors">
             prizes
             <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></div>
@@ -384,10 +378,6 @@ export default function Home() {
           <a href="#faq" className="relative group hover:text-gray-400 transition-colors">
             faq
             <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-400 to-orange-400 group-hover:w-full transition-all duration-300"></div>
-          </a>
-          <a href="#sponsors" className="relative group hover:text-gray-400 transition-colors">
-            sponsors
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-cyan-400 group-hover:w-full transition-all duration-300"></div>
           </a>
         </div>
         <a href="https://form.jotform.com/252578355100252" target="_blank">
@@ -408,49 +398,6 @@ export default function Home() {
       </div>
 
 
-      {/* Sponsors Ticker */}
-      <div className="relative z-10 py-8 bg-black/30 backdrop-blur-sm">
-        <div className="overflow-hidden">
-          <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
-          <div className="flex items-center">
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg">🍎</div>
-            <div className="mx-4 h-8 w-20 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">META</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AMZ</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NV</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">T</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AI</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">GH</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">▲</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">S</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">F</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">N</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">D</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
-          </div>
-          <div className="flex items-center">
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">MS</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">G</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg">🍎</div>
-            <div className="mx-4 h-8 w-20 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">META</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AMZ</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NV</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">T</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">AI</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">GH</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">▲</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">S</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">F</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">N</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">D</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-lg text-gray-300">♪</div>
-            <div className="mx-4 h-8 w-16 bg-white/10 rounded flex items-center justify-center text-xs font-bold text-gray-300">NF</div>
-          </div>
-        </div>
-        </div>
-      </div>
 
       {/* Hero Section - No title initially */}
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8">
@@ -484,25 +431,26 @@ export default function Home() {
             )}
           </h1>
           <p className="text-xl md:text-2xl mb-4 text-gray-300">
-            the first startup micro-accelerator in canada.
+            the first high school buildathon.
           </p>
           <div className="mb-12 text-gray-400">
-            <p className="text-lg md:text-xl mb-2">March 15-17, 2024</p>
+            <p className="text-lg md:text-xl mb-2">October 10-12, 2025</p>
             <p className="text-md md:text-lg">Toronto, Ontario</p>
           </div>
 
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-black to-gray-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-transform shadow-lg cursor-pointer flex items-center gap-2">
-              register for free
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </button>
-            <button className="border-2 border-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-colors">
-              learn more
-            </button>
+            <a href="https://form.jotform.com/252578355100252" target="_blank">
+              <button className="bg-blue-400 text-black px-8 py-4 rounded-full text-lg font-semibold cursor-pointer">
+                sign up now
+              </button>
+            </a>
+            <a href="#about">
+              <button className="border-2 border-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-colors cursor-pointer">
+                learn more
+              </button>
+            </a>
           </div>
         </div>
       </main>
@@ -510,12 +458,6 @@ export default function Home() {
 
       {/* About Section */}
       <AboutSection />
-
-      {/* Timeline Section */}
-      <Timeline />
-
-      {/* Workshop Leaders Section */}
-      <WorkshopLeaders />
 
       {/* FAQ Section */}
       <FAQ />
@@ -535,34 +477,33 @@ export default function Home() {
                 the trophy
               </h3>
               <div className="space-y-4 text-gray-300">
-                <p className="text-lg">A custom-designed golden trophy awarded to the winning team of Genesis 2024.</p>
+                <p className="text-lg">A custom-designed golden unicorn trophy awarded to the winning team of Genesis 2025.</p>
                 <p>This prestigious award represents innovation, creativity, and technical excellence in the startup ecosystem.</p>
-                <p>The trophy features a modern geometric design with premium gold finish, symbolizing the cutting-edge nature of the competition.</p>
+                <p>The trophy features a majestic unicorn design with premium gold finish, symbolizing the magical transformation from idea to startup.</p>
                 <p className="text-yellow-400 font-semibold">Interactive 3D model - click and drag to rotate!</p>
               </div>
             </div>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 backdrop-blur-sm rounded-xl p-8 border border-yellow-400/30 text-center hover:scale-105 transition-transform">
-              <div className="text-6xl mb-4">🥇</div>
-              <h3 className="text-2xl font-bold mb-4 text-yellow-400">1st place</h3>
-              <p className="text-3xl font-bold mb-2 text-white">$5,000</p>
-              <p className="text-gray-300">+ mentorship opportunities</p>
-            </div>
-            <div className="bg-gradient-to-br from-gray-400/20 to-gray-500/20 backdrop-blur-sm rounded-xl p-8 border border-gray-400/30 text-center hover:scale-105 transition-transform">
-              <div className="text-6xl mb-4">🥈</div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-400">2nd place</h3>
-              <p className="text-3xl font-bold mb-2 text-white">$3,000</p>
-              <p className="text-gray-300">+ tech gadgets</p>
-            </div>
-            <div className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 backdrop-blur-sm rounded-xl p-8 border border-orange-500/30 text-center hover:scale-105 transition-transform">
-              <div className="text-6xl mb-4">🥉</div>
-              <h3 className="text-2xl font-bold mb-4 text-orange-400">3rd place</h3>
-              <p className="text-3xl font-bold mb-2 text-white">$1,000</p>
-              <p className="text-gray-300">+ swag packages</p>
-            </div>
-          </div>
+        </div>
+      </section>
+
+      {/* Signup Section */}
+      <section className="relative z-10 py-20 px-6 bg-gradient-to-b from-black via-gray-900 to-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            ready to build?
+          </h2>
+          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+            Join Genesis 2025 and transform your idea into a real startup in just 48 hours.
+          </p>
+          <a href="https://form.jotform.com/252578355100252" target="_blank">
+            <button className="bg-blue-400 text-black px-12 py-6 rounded-full text-xl font-bold cursor-pointer">
+              Register for Free
+              <svg className="w-6 h-6 ml-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </button>
+          </a>
         </div>
       </section>
 
