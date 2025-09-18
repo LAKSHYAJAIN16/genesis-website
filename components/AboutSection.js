@@ -44,10 +44,31 @@ const AboutSection = () => {
     <section id="about" className="relative z-10 py-32 px-6 bg-gradient-to-b from-black via-gray-900 to-black" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         {/* Hero Statement */}
-        <div className="text-center mb-20">
+        <div className="relative text-center mb-20 overflow-hidden">
+          {/* Cool Background Elements */}
+          <div className="absolute inset-0 opacity-20">
+            {/* Floating Geometric Shapes */}
+            <div className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-xl animate-float"></div>
+            <div className="absolute top-32 right-20 w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rotate-45 blur-lg animate-float" style={{animationDelay: '1s'}}></div>
+            <div className="absolute bottom-20 left-32 w-12 h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full blur-lg animate-float" style={{animationDelay: '2s'}}></div>
+            <div className="absolute bottom-10 right-10 w-24 h-24 bg-gradient-to-r from-green-500 to-blue-500 rotate-12 blur-xl animate-float" style={{animationDelay: '0.5s'}}></div>
+            
+            {/* Grid Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="grid grid-cols-12 gap-4 h-full">
+                {Array.from({length: 48}).map((_, i) => (
+                  <div key={i} className="border border-white/10 rounded animate-pulse" style={{animationDelay: `${i * 0.1}s`}}></div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Animated Lines */}
+            <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
+            <div className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
+          </div>
           <h2 
             ref={(el) => addToRefs(el, 'title')}
-            className={`text-5xl md:text-7xl mb-8 text-white leading-tight transition-all duration-1000 ${
+            className={`relative z-10 text-5xl md:text-7xl mb-8 text-white leading-tight transition-all duration-1000 ${
               isVisible.title ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
@@ -77,7 +98,7 @@ const AboutSection = () => {
           </h2>
           <p 
             ref={(el) => addToRefs(el, 'subtitle')}
-            className={`text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 delay-200 ${
+            className={`relative z-10 text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed transition-all duration-1000 delay-200 ${
               isVisible.subtitle ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
@@ -138,7 +159,7 @@ const AboutSection = () => {
           {/* Right: Outcome Promise */}
           <div 
             ref={(el) => addToRefs(el, 'outcomes')}
-            className={`bg-black rounded-2xl p-8 border border-white/20 hover:scale-105 transition-all duration-1000 delay-400 ${
+            className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:scale-105 transition-all duration-1000 delay-400 ${
               isVisible.outcomes ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
             }`}
           >

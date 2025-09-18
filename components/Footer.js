@@ -31,7 +31,7 @@ const Footer = () => {
   return (
     <footer 
       ref={footerRef}
-      className="relative z-10 bg-gradient-to-b from-black via-gray-900 to-black border-t border-white/10"
+      className="relative z-10 bg-black border-t border-white/10"
     >
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">

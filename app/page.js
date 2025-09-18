@@ -488,7 +488,7 @@ export default function Home() {
       </section>
 
       {/* Signup Section */}
-      <section className="relative z-10 py-20 px-6 bg-gradient-to-b from-black via-gray-900 to-black">
+      <section className="relative z-10 py-20 px-6 bg-black">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
             ready to build?
