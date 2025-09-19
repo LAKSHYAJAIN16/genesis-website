@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Poppins } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
 import FAQ from '../components/FAQ';
@@ -186,9 +186,9 @@ const styles = `
   .animate-scroll-leaders { animation: scroll-leaders 40s linear infinite; }
 `;
 
-const poppins = Poppins({
+const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 });
 
@@ -259,7 +259,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen bg-black text-white relative overflow-x-hidden ${poppins.className}`}>
+    <div className={`min-h-screen bg-black text-white relative overflow-x-hidden ${manrope.className}`}>
       {/* Inject CSS animations */}
       <style jsx>{styles}</style>
       
