@@ -2,13 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { Poppins } from 'next/font/google';
+import { motion } from 'framer-motion';
 import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 // Add CSS animations
 const styles = `
+  html {
+    scroll-behavior: smooth;
+  }
   @keyframes gridMove {
     0% { transform: translate(0, 0); }
     100% { transform: translate(50px, 50px); }
@@ -184,6 +189,26 @@ const styles = `
   .animate-jitter-2 { animation: jitter-2 2.5s ease-in-out infinite; }
   .animate-jitter-3 { animation: jitter-3 3s ease-in-out infinite; }
   .animate-scroll-leaders { animation: scroll-leaders 40s linear infinite; }
+  .animate-spin-slow { animation: spin 20s linear infinite; }
+  .animate-spin-reverse { animation: spin 15s linear infinite reverse; }
+  .animate-particle { animation: particle 10s linear infinite; }
+  
+  @keyframes particle {
+    0% { 
+      transform: translateY(100vh) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% { 
+      transform: translateY(-100vh) scale(1);
+      opacity: 0;
+    }
+  }
 `;
 
 const poppins = Poppins({
@@ -265,101 +290,15 @@ export default function Home() {
       
 
 
-      {/* Combined PCB + Shapes + Photos Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-800"></div>
-        
-        
-        {/* Holographic Grid Background */}
-        <div className="absolute inset-0 opacity-25">
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="neonGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{stopColor: '#00FFFF', stopOpacity: 0.8}} />
-                <stop offset="50%" style={{stopColor: '#0080FF', stopOpacity: 0.6}} />
-                <stop offset="100%" style={{stopColor: '#8000FF', stopOpacity: 0.4}} />
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
-                <feMerge> 
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-            </defs>
-            
-            {/* 3D Perspective Grid - Horizontal Lines */}
-            <g stroke="url(#neonGradient)" strokeWidth="0.2" fill="none" filter="url(#glow)">
-              {/* Top section - closer lines */}
-              <line x1="0" y1="20" x2="100" y2="20" className="animate-pulse" style={{animationDelay: '0s'}} />
-              <line x1="5" y1="25" x2="95" y2="25" className="animate-pulse" style={{animationDelay: '0.5s'}} />
-              <line x1="10" y1="30" x2="90" y2="30" className="animate-pulse" style={{animationDelay: '1s'}} />
-              <line x1="15" y1="35" x2="85" y2="35" className="animate-pulse" style={{animationDelay: '1.5s'}} />
-              <line x1="20" y1="40" x2="80" y2="40" className="animate-pulse" style={{animationDelay: '2s'}} />
-              <line x1="25" y1="45" x2="75" y2="45" className="animate-pulse" style={{animationDelay: '2.5s'}} />
-              <line x1="30" y1="50" x2="70" y2="50" className="animate-pulse" style={{animationDelay: '3s'}} />
-              
-              {/* Bottom section - farther lines */}
-              <line x1="35" y1="55" x2="65" y2="55" className="animate-pulse" style={{animationDelay: '0.2s'}} />
-              <line x1="40" y1="60" x2="60" y2="60" className="animate-pulse" style={{animationDelay: '0.7s'}} />
-              <line x1="42" y1="65" x2="58" y2="65" className="animate-pulse" style={{animationDelay: '1.2s'}} />
-              <line x1="44" y1="70" x2="56" y2="70" className="animate-pulse" style={{animationDelay: '1.7s'}} />
-              <line x1="46" y1="75" x2="54" y2="75" className="animate-pulse" style={{animationDelay: '2.2s'}} />
-              <line x1="48" y1="80" x2="52" y2="80" className="animate-pulse" style={{animationDelay: '2.7s'}} />
-            </g>
-            
-            {/* Vertical Grid Lines - Perspective */}
-            <g stroke="url(#neonGradient)" strokeWidth="0.15" fill="none" filter="url(#glow)">
-              <line x1="10" y1="20" x2="35" y2="80" className="animate-pulse" style={{animationDelay: '0.3s'}} />
-              <line x1="20" y1="20" x2="40" y2="80" className="animate-pulse" style={{animationDelay: '0.8s'}} />
-              <line x1="30" y1="20" x2="45" y2="80" className="animate-pulse" style={{animationDelay: '1.3s'}} />
-              <line x1="40" y1="20" x2="48" y2="80" className="animate-pulse" style={{animationDelay: '1.8s'}} />
-              <line x1="50" y1="20" x2="50" y2="80" className="animate-pulse" style={{animationDelay: '2.3s'}} />
-              <line x1="60" y1="20" x2="52" y2="80" className="animate-pulse" style={{animationDelay: '2.8s'}} />
-              <line x1="70" y1="20" x2="55" y2="80" className="animate-pulse" style={{animationDelay: '0.1s'}} />
-              <line x1="80" y1="20" x2="60" y2="80" className="animate-pulse" style={{animationDelay: '0.6s'}} />
-              <line x1="90" y1="20" x2="65" y2="80" className="animate-pulse" style={{animationDelay: '1.1s'}} />
-            </g>
-            
-            {/* Glowing intersection points */}
-            <g fill="url(#neonGradient)" filter="url(#glow)">
-              <circle cx="30" cy="30" r="0.5" className="animate-pulse" style={{animationDelay: '1s'}} />
-              <circle cx="50" cy="40" r="0.8" className="animate-pulse" style={{animationDelay: '2s'}} />
-              <circle cx="70" cy="35" r="0.6" className="animate-pulse" style={{animationDelay: '0.5s'}} />
-              <circle cx="40" cy="50" r="0.7" className="animate-pulse" style={{animationDelay: '1.5s'}} />
-              <circle cx="60" cy="45" r="0.5" className="animate-pulse" style={{animationDelay: '2.5s'}} />
-              <circle cx="50" cy="60" r="0.9" className="animate-pulse" style={{animationDelay: '3s'}} />
-            </g>
-          </svg>
-        </div>
-        
-        {/* Floating Holographic Elements */}
-        <div className="absolute top-32 right-20 opacity-40">
-          <div className="w-16 h-16 border-2 border-cyan-400 rounded-lg animate-float" style={{filter: 'drop-shadow(0 0 10px #00FFFF)'}}>
-            <div className="w-full h-full bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-lg animate-pulse"></div>
-          </div>
-        </div>
-        
-        <div className="absolute bottom-32 left-20 opacity-40">
-          <div className="w-12 h-12 border-2 border-purple-400 rounded-full animate-float" style={{filter: 'drop-shadow(0 0 8px #8000FF)', animationDelay: '2s'}}>
-            <div className="w-full h-full bg-gradient-to-br from-purple-400/20 to-pink-500/20 rounded-full animate-pulse"></div>
-          </div>
-        </div>
-        
-        <div className="absolute top-60 left-1/3 opacity-30">
-          <div className="w-8 h-20 border-2 border-blue-400 rounded animate-float" style={{filter: 'drop-shadow(0 0 6px #0080FF)', animationDelay: '1s'}}>
-            <div className="w-full h-full bg-gradient-to-t from-blue-400/20 to-cyan-500/20 rounded animate-pulse"></div>
-          </div>
-        </div>
-        
-        <div className="absolute bottom-48 right-1/4 opacity-35">
-          <div className="w-14 h-8 border-2 border-teal-400 rounded-lg animate-float" style={{filter: 'drop-shadow(0 0 7px #14B8A6)', animationDelay: '3s'}}>
-            <div className="w-full h-full bg-gradient-to-r from-teal-400/20 to-cyan-400/20 rounded-lg animate-pulse"></div>
-          </div>
+      {/* New Animated Background */}
+      <AnimatedBackground />
+      
+      {/* Floating Element */}
+      <div className="fixed bottom-48 right-1/4 opacity-35 z-10">
+        <div className="w-14 h-8 border-2 border-teal-400 rounded-lg animate-float" style={{filter: 'drop-shadow(0 0 7px #14B8A6)', animationDelay: '3s'}}>
+          <div className="w-full h-full bg-gradient-to-r from-teal-400/20 to-cyan-400/20 rounded-lg animate-pulse"></div>
         </div>
       </div>
-
-
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-6 md:p-8 bg-black/90 backdrop-blur-sm">
@@ -399,62 +338,123 @@ export default function Home() {
 
 
 
-      {/* Hero Section - No title initially */}
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8">
-        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Genesis title appears after collision */}
-          <h1 className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent font-mono">
+      {/* Hero Section */}
+      <motion.main 
+        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <motion.div 
+          className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {/* Animated title */}
+          <motion.h1 
+            className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent font-mono"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             {animationProgress < 0.2 && (
-              <span className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent">
+              <motion.span 
+                className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 hackathon_
-              </span>
+              </motion.span>
             )}
             {animationProgress >= 0.2 && animationProgress < 0.4 && (
-              <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
+              <motion.span 
+                className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 bootcamp_
-              </span>
+              </motion.span>
             )}
             {animationProgress >= 0.4 && animationProgress < 0.6 && (
-              <span className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent">
+              <motion.span 
+                className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 launchpad_
-              </span>
+              </motion.span>
             )}
             {animationProgress >= 0.6 && animationProgress < 0.8 && (
-              <span className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
+              <motion.span 
+                className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 incubator_
-              </span>
+              </motion.span>
             )}
             {animationProgress >= 0.8 && (
-              <span className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
+              <motion.span 
+                className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
+              >
                 genesis
-              </span>
+              </motion.span>
             )}
-          </h1>
-          <p className="text-xl md:text-2xl mb-4 text-gray-300">
+          </motion.h1>
+          
+          <motion.p 
+            className="text-xl md:text-2xl mb-4 text-gray-300"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             the first high school buildathon.
-          </p>
-          <div className="mb-12 text-gray-400">
+          </motion.p>
+          
+          <motion.div 
+            className="mb-12 text-gray-400"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             <p className="text-lg md:text-xl mb-2">October 10-12, 2025</p>
             <p className="text-md md:text-lg">Toronto, Ontario</p>
-          </div>
-
-
+          </motion.div>
+          
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://form.jotform.com/252578355100252" target="_blank">
-              <button className="bg-blue-400 text-black px-8 py-4 rounded-full text-lg font-semibold cursor-pointer">
-                sign up now
-              </button>
-            </a>
-            <a href="#about">
-              <button className="border-2 border-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-colors cursor-pointer">
-                learn more
-              </button>
-            </a>
-          </div>
-        </div>
-      </main>
-
+          <motion.div 
+            className="flex flex-col sm:flex-row justify-center gap-6 mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <motion.a 
+              href="#register" 
+              className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold rounded-full hover:opacity-90 transition-all"
+              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(34, 211, 238, 0.5)' }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Register Now
+            </motion.a>
+            <motion.a 
+              href="#about" 
+              className="px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all"
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Learn More
+            </motion.a>
+          </motion.div>
+        </motion.div>
+      </motion.main>
 
       {/* About Section */}
       <AboutSection />
@@ -463,115 +463,141 @@ export default function Home() {
       <FAQ />
 
       {/* Prizes Section */}
-      <section id="prizes" className="relative z-10 py-20 px-6 bg-gradient-to-b from-black via-gray-900/50 to-black overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-          <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-2xl animate-float" style={{animationDelay: '1s'}}></div>
-        </div>
+      <section id="prizes" className="relative z-10 py-32 px-6 bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
+        {/* Background elements */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-full pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          transition={{ duration: 2 }}
+        >
+          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-soft-light filter blur-3xl"></div>
+          <div className="absolute bottom-1/3 -right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-soft-light filter blur-3xl"></div>
+        </motion.div>
 
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-600 bg-clip-text text-transparent">
-              win big
+        <div className="max-w-7xl mx-auto relative">
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-6xl mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent font-bold">
+              prizes
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Over $15,000 in prizes, mentorship opportunities, and startup resources waiting for the most innovative teams
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Compete for amazing prizes and the chance to showcase your startup to investors.
             </p>
-          </div>
-
-          {/* Prize Tiers */}
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
-            {/* 1st Place */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative bg-black border border-yellow-400/50 rounded-2xl p-8 text-center hover:scale-105 transition-transform">
-                <div className="text-6xl mb-4">🏆</div>
-                <h3 className="text-3xl font-bold text-yellow-400 mb-4">1st place</h3>
-                <div className="text-4xl font-bold text-white mb-2">$8,000</div>
-                <div className="space-y-2 text-gray-300">
-                  <p>• Golden unicorn trophy</p>
-                  <p>• 6-month startup mentorship</p>
-                  <p>• $5,000 AWS credits</p>
-                  <p>• Legal incorporation support</p>
-                  <p>• Pitch deck review session</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 2nd Place */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-blue-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative bg-black border border-gray-400/50 rounded-2xl p-8 text-center hover:scale-105 transition-transform">
-                <div className="text-6xl mb-4">🥈</div>
-                <h3 className="text-3xl font-bold text-gray-400 mb-4">2nd place</h3>
-                <div className="text-4xl font-bold text-white mb-2">$5,000</div>
-                <div className="space-y-2 text-gray-300">
-                  <p>• Silver unicorn trophy</p>
-                  <p>• 3-month mentorship</p>
-                  <p>• $2,500 AWS credits</p>
-                  <p>• Premium tech gear</p>
-                  <p>• Startup toolkit bundle</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 3rd Place */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative bg-black border border-orange-500/50 rounded-2xl p-8 text-center hover:scale-105 transition-transform">
-                <div className="text-6xl mb-4">🥉</div>
-                <h3 className="text-3xl font-bold text-orange-400 mb-4">3rd place</h3>
-                <div className="text-4xl font-bold text-white mb-2">$2,000</div>
-                <div className="space-y-2 text-gray-300">
-                  <p>• Bronze unicorn trophy</p>
-                  <p>• 1-month mentorship</p>
-                  <p>• $1,000 AWS credits</p>
-                  <p>• Tech accessories bundle</p>
-                  <p>• Genesis swag package</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Special Awards */}
-          <div className="grid md:grid-cols-2 gap-8 mb-20">
-            <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 backdrop-blur-sm rounded-2xl p-8 border border-purple-400/30">
-              <div className="flex items-center mb-4">
-                <div className="text-4xl mr-4">🎨</div>
-                <h3 className="text-2xl font-bold text-purple-400">best design award</h3>
-              </div>
-              <p className="text-gray-300 mb-4">For the team with the most innovative and user-friendly design</p>
-              <div className="text-xl font-semibold text-white">$1,000 + Design tools bundle</div>
-            </div>
-
-            <div className="bg-gradient-to-br from-green-900/50 to-blue-900/50 backdrop-blur-sm rounded-2xl p-8 border border-green-400/30">
-              <div className="flex items-center mb-4">
-                <div className="text-4xl mr-4">🚀</div>
-                <h3 className="text-2xl font-bold text-green-400">most innovative tech</h3>
-              </div>
-              <p className="text-gray-300 mb-4">For the team using the most cutting-edge technology</p>
-              <div className="text-xl font-semibold text-white">$1,000 + Tech credits</div>
-            </div>
-          </div>
+          </motion.div>
 
           {/* Trophy Showcase */}
-          <div className="bg-gradient-to-r from-yellow-900/20 via-orange-900/20 to-yellow-900/20 backdrop-blur-sm rounded-3xl p-12 border border-yellow-400/30">
-            <div className="flex items-center justify-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-16 mb-32">
+            <motion.div 
+              className="flex-shrink-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               <TrophyCube />
-              <div className="max-w-2xl">
-                <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6">
-                  the legendary unicorn trophy
-                </h3>
-                <div className="space-y-4 text-gray-300 text-lg">
-                  <p>A custom-designed golden unicorn trophy that represents the magical transformation from idea to startup.</p>
-                  <p>Crafted with premium materials and featuring intricate details, this trophy will become a centerpiece in your journey as an entrepreneur.</p>
-                  <p className="text-yellow-400 font-semibold">🎮 Interactive 3D model - click and drag to rotate!</p>
-                </div>
+            </motion.div>
+            <motion.div 
+              className="max-w-2xl"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <h3 className="text-4xl bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6 font-bold">
+                the legendary unicorn trophy
+              </h3>
+              <div className="space-y-4 text-gray-300 text-lg">
+                <p>A custom-designed golden unicorn trophy that represents the magical transformation from idea to startup.</p>
+                <p>Crafted with premium materials and featuring intricate details, this trophy will become a centerpiece in your journey as an entrepreneur.</p>
+                <motion.p 
+                  className="text-yellow-400 flex items-center gap-2"
+                  animate={{ opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <span className="inline-block animate-bounce">🎮</span> Interactive 3D model - click and drag to rotate!
+                </motion.p>
               </div>
-            </div>
+            </motion.div>
           </div>
+
+          {/* Prize Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+            {/* Prize Card 2 */}
+            <motion.div 
+              className="group relative bg-gradient-to-br from-gray-900 to-gray-800/80 backdrop-blur-sm border border-white/10 rounded-2xl p-8 overflow-hidden hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ y: -10 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-semibold mb-4 text-white">Premium Resources</h3>
+                <p className="text-gray-300">Receive premium design assets, development tools, and cloud credits to build your startup.</p>
+              </div>
+            </motion.div>
+
+            {/* Prize Card 3 */}
+            <motion.div 
+              className="group relative bg-gradient-to-br from-gray-900 to-gray-800/80 backdrop-blur-sm border border-white/10 rounded-2xl p-8 overflow-hidden hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-500"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ y: -10 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-semibold mb-4 text-white">Seed Funding</h3>
+                <p className="text-gray-300">Win seed funding to help turn your project into a real business.</p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Floating elements */}
+          <motion.div 
+            className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full filter blur-3xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.2, 0.1]
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div 
+            className="absolute -top-20 -left-20 w-60 h-60 bg-purple-500/20 rounded-full filter blur-3xl"
+            animate={{ 
+              scale: [1, 1.3, 1],
+              opacity: [0.1, 0.15, 0.1]
+            }}
+            transition={{ 
+              duration: 12, 
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2
+            }}
+          />
         </div>
       </section>
 

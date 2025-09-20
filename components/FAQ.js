@@ -181,8 +181,8 @@ const FAQ = () => {
               onClick={() => toggleFAQ(index)}
               className={`text-left text-white px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
                 openFAQ === index 
-                  ? 'border-orange-400 bg-orange-400/20 shadow-lg shadow-orange-400/20' 
-                  : 'border-white/20 hover:border-orange-400/30'
+                  ? 'border-orange-400 bg-orange-400/20 backdrop-blur-sm shadow-lg shadow-orange-400/20' 
+                  : 'border-white/20 bg-white/10 backdrop-blur-sm hover:bg-white/15 hover:border-orange-400/30'
               } ${isVisible[`question-${index}`] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transitionDelay: `${index * 0.1}s` }}
             >
@@ -196,7 +196,7 @@ const FAQ = () => {
         {/* Chat Interface */}
         {openFAQ !== null && (
           <div 
-            className="max-w-3xl mx-auto bg-black rounded-3xl border border-white/20 p-8 shadow-2xl"
+            className="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 p-8 shadow-2xl"
             ref={(el) => addToRefs(el, 'chat')}
           >
             {/* Chat Header */}
@@ -228,11 +228,11 @@ const FAQ = () => {
               {/* User Question */}
               <div className="flex justify-end">
                 <div className="flex items-end space-x-3 max-w-lg">
-                  <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-4 rounded-2xl rounded-br-sm relative shadow-lg">
+                  <div className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-4 rounded-2xl rounded-br-sm relative shadow-lg">
                     <p className="text-sm font-medium">{faqs[openFAQ].question}</p>
-                    <div className="absolute bottom-0 right-0 w-0 h-0 border-l-8 border-l-purple-500 border-t-8 border-t-transparent"></div>
+                    <div className="absolute bottom-0 right-0 w-0 h-0 border-l-8 border-l-cyan-500 border-t-8 border-t-transparent"></div>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 flex items-center justify-center flex-shrink-0">
                     <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
@@ -246,17 +246,17 @@ const FAQ = () => {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-pink-400 flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-xs">G</span>
                   </div>
-                  <div className="bg-black text-gray-100 px-6 py-4 rounded-2xl rounded-bl-sm relative border border-white/20 shadow-lg">
+                  <div className="bg-white/10 backdrop-blur-sm text-gray-100 px-6 py-4 rounded-2xl rounded-bl-sm relative border border-white/20 shadow-lg">
                     {isTyping ? (
                       <div className="flex space-x-1 py-2">
                         <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
                         <div className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                       </div>
                     ) : (
                       <p className="text-sm leading-relaxed">{displayedText}{showCursor && <span className="animate-pulse">|</span>}</p>
                     )}
-                    <div className="absolute bottom-0 left-0 w-0 h-0 border-r-8 border-r-black border-t-8 border-t-transparent"></div>
+                    <div className="absolute bottom-0 left-0 w-0 h-0 border-r-8 border-r-white/10 border-t-8 border-t-transparent"></div>
                   </div>
                 </div>
               </div>

@@ -16,8 +16,8 @@ export default function TrophyCube() {
     // Scene setup
     const scene = new THREE.Scene();
     
-    // Get canvas dimensions - half screen width
-    const canvasWidth = window.innerWidth / 2;
+    // Get canvas dimensions - fixed size
+    const canvasWidth = 400;
     const canvasHeight = 400;
     
     // Camera setup
@@ -171,7 +171,7 @@ export default function TrophyCube() {
   }, []);
 
   return (
-    <div className="relative w-1/2 h-[400px]">
+    <div className="relative w-[400px] h-[400px]">
       <div 
         ref={mountRef} 
         className="w-full h-full"

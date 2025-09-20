@@ -168,6 +168,25 @@ const AboutSection = () => {
             </div>
           </div>
         </div>
+
+        {/* Exclusive Access Card */}
+        <div 
+          ref={(el) => addToRefs(el, 'exclusiveAccess')}
+          className={`max-w-2xl mx-auto mt-20 group relative bg-gradient-to-br from-gray-900 to-gray-800/80 backdrop-blur-sm border border-white/10 rounded-2xl p-8 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ${
+            isVisible.exclusiveAccess ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative z-10">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-semibold mb-4 text-white">Exclusive Access</h3>
+            <p className="text-gray-300">Get early access to our startup accelerator program and mentorship from industry experts.</p>
+          </div>
+        </div>
       </div>
     </section>
   );
