@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Manrope } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import TrophyCube from '../components/TrophyCube';
 import AboutSection from '../components/AboutSection';
 import FAQ from '../components/FAQ';
@@ -186,9 +186,9 @@ const styles = `
   .animate-scroll-leaders { animation: scroll-leaders 40s linear infinite; }
 `;
 
-const manrope = Manrope({
+const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 });
 
@@ -259,7 +259,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen bg-black text-white relative overflow-x-hidden ${manrope.className}`}>
+    <div className={`min-h-screen bg-black text-white relative overflow-x-hidden ${poppins.className}`}>
       {/* Inject CSS animations */}
       <style jsx>{styles}</style>
       
@@ -463,24 +463,112 @@ export default function Home() {
       <FAQ />
 
       {/* Prizes Section */}
-      <section id="prizes" className="relative z-10 py-20 px-6 bg-black">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            prizes & awards
-          </h2>
-          
-          {/* Trophy Section */}
-          <div className="flex items-center justify-center gap-12 mb-16">
-            <TrophyCube />
-            <div className="w-1/2 pl-8">
-              <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-6">
-                the trophy
-              </h3>
-              <div className="space-y-4 text-gray-300">
-                <p className="text-lg">A custom-designed golden unicorn trophy awarded to the winning team of Genesis 2025.</p>
-                <p>This prestigious award represents innovation, creativity, and technical excellence in the startup ecosystem.</p>
-                <p>The trophy features a majestic unicorn design with premium gold finish, symbolizing the magical transformation from idea to startup.</p>
-                <p className="text-yellow-400 font-semibold">Interactive 3D model - click and drag to rotate!</p>
+      <section id="prizes" className="relative z-10 py-20 px-6 bg-gradient-to-b from-black via-gray-900/50 to-black overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-2xl animate-float" style={{animationDelay: '1s'}}></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-600 bg-clip-text text-transparent">
+              win big
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Over $15,000 in prizes, mentorship opportunities, and startup resources waiting for the most innovative teams
+            </p>
+          </div>
+
+          {/* Prize Tiers */}
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            {/* 1st Place */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative bg-black border border-yellow-400/50 rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div className="text-6xl mb-4">🏆</div>
+                <h3 className="text-3xl font-bold text-yellow-400 mb-4">1st place</h3>
+                <div className="text-4xl font-bold text-white mb-2">$8,000</div>
+                <div className="space-y-2 text-gray-300">
+                  <p>• Golden unicorn trophy</p>
+                  <p>• 6-month startup mentorship</p>
+                  <p>• $5,000 AWS credits</p>
+                  <p>• Legal incorporation support</p>
+                  <p>• Pitch deck review session</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 2nd Place */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-blue-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative bg-black border border-gray-400/50 rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div className="text-6xl mb-4">🥈</div>
+                <h3 className="text-3xl font-bold text-gray-400 mb-4">2nd place</h3>
+                <div className="text-4xl font-bold text-white mb-2">$5,000</div>
+                <div className="space-y-2 text-gray-300">
+                  <p>• Silver unicorn trophy</p>
+                  <p>• 3-month mentorship</p>
+                  <p>• $2,500 AWS credits</p>
+                  <p>• Premium tech gear</p>
+                  <p>• Startup toolkit bundle</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 3rd Place */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative bg-black border border-orange-500/50 rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div className="text-6xl mb-4">🥉</div>
+                <h3 className="text-3xl font-bold text-orange-400 mb-4">3rd place</h3>
+                <div className="text-4xl font-bold text-white mb-2">$2,000</div>
+                <div className="space-y-2 text-gray-300">
+                  <p>• Bronze unicorn trophy</p>
+                  <p>• 1-month mentorship</p>
+                  <p>• $1,000 AWS credits</p>
+                  <p>• Tech accessories bundle</p>
+                  <p>• Genesis swag package</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Special Awards */}
+          <div className="grid md:grid-cols-2 gap-8 mb-20">
+            <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 backdrop-blur-sm rounded-2xl p-8 border border-purple-400/30">
+              <div className="flex items-center mb-4">
+                <div className="text-4xl mr-4">🎨</div>
+                <h3 className="text-2xl font-bold text-purple-400">best design award</h3>
+              </div>
+              <p className="text-gray-300 mb-4">For the team with the most innovative and user-friendly design</p>
+              <div className="text-xl font-semibold text-white">$1,000 + Design tools bundle</div>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-900/50 to-blue-900/50 backdrop-blur-sm rounded-2xl p-8 border border-green-400/30">
+              <div className="flex items-center mb-4">
+                <div className="text-4xl mr-4">🚀</div>
+                <h3 className="text-2xl font-bold text-green-400">most innovative tech</h3>
+              </div>
+              <p className="text-gray-300 mb-4">For the team using the most cutting-edge technology</p>
+              <div className="text-xl font-semibold text-white">$1,000 + Tech credits</div>
+            </div>
+          </div>
+
+          {/* Trophy Showcase */}
+          <div className="bg-gradient-to-r from-yellow-900/20 via-orange-900/20 to-yellow-900/20 backdrop-blur-sm rounded-3xl p-12 border border-yellow-400/30">
+            <div className="flex items-center justify-center gap-12">
+              <TrophyCube />
+              <div className="max-w-2xl">
+                <h3 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6">
+                  the legendary unicorn trophy
+                </h3>
+                <div className="space-y-4 text-gray-300 text-lg">
+                  <p>A custom-designed golden unicorn trophy that represents the magical transformation from idea to startup.</p>
+                  <p>Crafted with premium materials and featuring intricate details, this trophy will become a centerpiece in your journey as an entrepreneur.</p>
+                  <p className="text-yellow-400 font-semibold">🎮 Interactive 3D model - click and drag to rotate!</p>
+                </div>
               </div>
             </div>
           </div>
