@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { useRef, useEffect, useState, useCallback } from 'react';
 
 const AnimatedBackground = () => {
   const containerRef = useRef(null);
@@ -9,6 +9,13 @@ const AnimatedBackground = () => {
     target: containerRef,
     offset: ['start start', 'end end']
   });
+  
+  // Mouse position ref
+  const mousePosition = useRef({ x: 0, y: 0 });
+  
+  // Motion values for transforms
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
   
   // Parallax effects
   const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -200]), {
@@ -25,40 +32,54 @@ const AnimatedBackground = () => {
     stiffness: 50,
     damping: 20,
   });
-
-  // Mouse position tracking for parallax
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
+  // Update mouse position and motion values
+  const updateMousePosition = useCallback((e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+    const y = (e.clientY / window.innerHeight - 0.5) * 20;
     
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    mousePosition.current = { x, y };
+    mouseX.set(x * 0.3);
+    mouseY.set(y * 0.3);
+  }, [mouseX, mouseY]);
+  
+  // Set up event listeners
+  useEffect(() => {
+    window.addEventListener('mousemove', updateMousePosition);
+    return () => window.removeEventListener('mousemove', updateMousePosition);
+  }, [updateMousePosition]);
+
+  // State for particles and grid lines
+  const [particles, setParticles] = useState([]);
+  const [gridLines, setGridLines] = useState([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize particles and grid lines on client side only
+  useEffect(() => {
+    setIsClient(true);
+    
+    // Generate particles
+    const newParticles = Array.from({ length: 30 }).map((_, i) => ({
+      id: `particle-${i}-${Math.random().toString(36).substr(2, 9)}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 4 + 1,
+      speed: Math.random() * 0.5 + 0.1,
+      delay: Math.random() * 5,
+      opacity: Math.random() * 0.5 + 0.1,
+    }));
+    
+    // Generate grid lines
+    const newGridLines = Array.from({ length: 20 }).map((_, i) => ({
+      id: `grid-${i}`,
+      x: (i / 20) * 100,
+      opacity: 0.05 + (i % 5 === 0 ? 0.1 : 0),
+      width: i % 5 === 0 ? 1.5 : 0.5,
+    }));
+    
+    setParticles(newParticles);
+    setGridLines(newGridLines);
   }, []);
-
-  // Animated particles
-  const particles = Array.from({ length: 30 }).map((_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 1,
-    speed: Math.random() * 0.5 + 0.1,
-    delay: Math.random() * 5,
-    opacity: Math.random() * 0.5 + 0.1,
-  }));
-
-  // Grid lines
-  const gridLines = Array.from({ length: 20 }).map((_, i) => ({
-    id: i,
-    x: (i / 20) * 100,
-    opacity: 0.05 + (i % 5 === 0 ? 0.1 : 0),
-    width: i % 5 === 0 ? 1.5 : 0.5,
-  }));
 
   return (
     <div 
@@ -153,8 +174,8 @@ const AnimatedBackground = () => {
               left: `${particle.x}%`,
               top: `${particle.y}%`,
               opacity: particle.opacity,
-              x: useTransform(() => mousePosition.x * 0.3),
-              y: useTransform(() => mousePosition.y * 0.3),
+              x: mouseX,
+              y: mouseY,
             }}
             animate={{
               y: [`${particle.y}%`, `${particle.y - 20}%`, `${particle.y}%`],

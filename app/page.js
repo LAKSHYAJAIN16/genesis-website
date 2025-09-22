@@ -8,6 +8,7 @@ import AboutSection from '../components/AboutSection';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 import AnimatedBackground from '../components/AnimatedBackground';
+import Navbar from '../components/Navbar';
 
 // Add CSS animations
 const styles = `
@@ -288,7 +289,8 @@ export default function Home() {
       {/* Inject CSS animations */}
       <style jsx>{styles}</style>
       
-
+      {/* Navigation */}
+      <Navbar />
 
       {/* New Animated Background */}
       <AnimatedBackground />
@@ -301,40 +303,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-6 md:p-8 bg-black/90 backdrop-blur-sm">
-        <div className="text-2xl bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
-          genesis
-        </div>
-        <div className="hidden md:flex space-x-8">
-          <a href="#about" className="relative group hover:text-gray-400 transition-colors">
-            about
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
-          </a>
-          <a href="#prizes" className="relative group hover:text-gray-400 transition-colors">
-            prizes
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300"></div>
-          </a>
-          <a href="#faq" className="relative group hover:text-gray-400 transition-colors">
-            faq
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-400 to-orange-400 group-hover:w-full transition-all duration-300"></div>
-          </a>
-        </div>
-        <a href="https://form.jotform.com/252578355100252" target="_blank">
-          <button className="bg-gradient-to-r from-white to-gray-200 text-black px-6 py-2 rounded-full font-semibold hover:scale-105 transition-transform cursor-pointer flex items-center gap-2">
-            register
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </button>
-        </a>
-      </nav>
-      
-      {/* Jagged separator line */}
-      <div className="fixed top-[88px] left-0 right-0 z-40 h-2 bg-black">
-        <svg className="w-full h-full" viewBox="0 0 1200 20" preserveAspectRatio="none">
-          <path d="M0,10 L30,2 L60,18 L90,5 L120,15 L150,3 L180,17 L210,8 L240,12 L270,4 L300,16 L330,9 L360,13 L390,6 L420,14 L450,7 L480,11 L510,19 L540,1 L570,15 L600,8 L630,12 L660,5 L690,17 L720,3 L750,14 L780,9 L810,16 L840,6 L870,13 L900,4 L930,18 L960,7 L990,11 L1020,15 L1050,2 L1080,16 L1110,9 L1140,13 L1170,5 L1200,10 L1200,20 L0,20 Z" fill="white" fillOpacity="0.1"/>
-        </svg>
-      </div>
+      <Navbar />
 
 
 
