@@ -14,6 +14,9 @@ export const metadata = {
   authors: [{ name: "Genesis Team" }],
   creator: "Genesis",
   publisher: "Genesis",
+  icons: {
+    icon: '/favicon.ico',
+  },
   openGraph: {
     title: "Genesis 2025 - The First High School Buildathon",
     description: "Transform your idea into a real startup in just 48 hours. October 10-12, 2025 in Toronto.",
@@ -31,6 +34,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${instrumentSans.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         {children}
       </body>

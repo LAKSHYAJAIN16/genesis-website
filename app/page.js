@@ -96,6 +96,33 @@ const styles = `
     100% { transform: translateX(-100%); }
   }
   
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  
   @keyframes glow {
     0%, 100% { 
       opacity: 0.3;
@@ -289,11 +316,9 @@ export default function Home() {
       {/* Inject CSS animations */}
       <style jsx>{styles}</style>
       
-      {/* Navigation */}
-      <Navbar />
-
       {/* New Animated Background */}
       <AnimatedBackground />
+
       
       {/* Floating Element */}
       <div className="fixed bottom-48 right-1/4 opacity-35 z-10">
@@ -306,10 +331,7 @@ export default function Home() {
       <Navbar />
 
 
-
-      {/* Hero Section */}
-      <motion.main 
-        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8"
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -423,7 +445,7 @@ export default function Home() {
             </motion.a>
           </motion.div>
         </motion.div>
-      </motion.main>
+      </div>
 
       {/* About Section */}
       <AboutSection />
