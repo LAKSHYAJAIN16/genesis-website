@@ -32,18 +32,48 @@ export default function TrophyCube() {
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ 
       alpha: true, 
-      antialias: true 
+      antialias: true,
+      powerPreference: 'high-performance',
+      precision: 'highp'
     });
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(canvasWidth, canvasHeight);
     renderer.setClearColor(0x000000, 0);
 
-    // Add lighting for better model visibility
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // Enhanced trophy lighting setup
+    // Soft ambient light for base illumination
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
     
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(10, 10, 5);
-    scene.add(directionalLight);
+    // Main key light - bright golden from top-right
+    const keyLight = new THREE.DirectionalLight(0xfff4d6, 1.5);
+    keyLight.position.set(8, 15, 10);
+    keyLight.castShadow = true;
+    scene.add(keyLight);
+    
+    // Fill light - soft white from opposite side
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    fillLight.position.set(-8, 5, 5);
+    scene.add(fillLight);
+    
+    // Rim light - creates highlight on edges
+    const rimLight = new THREE.DirectionalLight(0xffffff, 1);
+    rimLight.position.set(0, 5, -15);
+    scene.add(rimLight);
+    
+    // Accent lights for sparkle
+    const accentLight1 = new THREE.PointLight(0xffdd88, 2, 15);
+    accentLight1.position.set(10, 10, 5);
+    scene.add(accentLight1);
+    
+    const accentLight2 = new THREE.PointLight(0x88aaff, 1.5, 15);
+    accentLight2.position.set(-10, 5, -5);
+    scene.add(accentLight2);
+    
+    // Helper to visualize lights (uncomment for debugging)
+    // const helper1 = new THREE.DirectionalLightHelper(keyLight, 1);
+    // scene.add(helper1);
 
     // Variable to store the loaded model
     let model = null;
@@ -58,47 +88,33 @@ export default function TrophyCube() {
       objLoader.load('/model.obj', (object) => {
         model = object;
         
-        // Scale and position the model
-        model.scale.set(0.1, 0.1, 0.1);
-        model.position.set(0, 0, 0);
-        
+        // Scale and position the model - increased scale for larger trophy
+        model.scale.set(1, 1, 1);
+        model.position.y = -0.5; // Slightly lower the model
         // Apply golden material to all meshes
         model.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.material = new THREE.MeshPhongMaterial({
-              color: 0xffd700,
-              shininess: 100,
+              color: 0xffd700, // Golden base color
+              emissive: 0x332200, // Warm emissive for inner glow
+              specular: 0xffdd55, // Bright golden specular
+              shininess: 100, // High shininess for metallic look
+              metalness: 0.9, // Enhanced metal reflection
+              roughness: 0.3, // Slight roughness for realism
               transparent: true,
-              opacity: 0.9
+              opacity: 0.98,
+              flatShading: false // Smooth shading for better reflections
             });
           }
         });
         
         scene.add(model);
-      }, undefined, (error) => {
-        console.error('Error loading OBJ model:', error);
-        // Fallback to cube if model fails to load
-        createFallbackCube();
+
       });
     }, undefined, (error) => {
-      console.error('Error loading MTL materials:', error);
-      // Fallback to cube if materials fail to load
-      createFallbackCube();
+
     });
-
-    // Fallback cube function
-    const createFallbackCube = () => {
-      const geometry = new THREE.BoxGeometry(2, 2, 2);
-      const material = new THREE.MeshPhongMaterial({ 
-        color: 0xffd700, 
-        transparent: true, 
-        opacity: 0.8 
-      });
-      model = new THREE.Mesh(geometry, material);
-      model.position.set(0, 0, 0);
-      scene.add(model);
-    };
-
+    
     // Add OrbitControls for interaction
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;

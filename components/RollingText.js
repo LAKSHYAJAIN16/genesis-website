@@ -24,12 +24,12 @@ const RollingText = ({ text, className = '', delay = 0 }) => {
   const letterVariants = {
     initial: { y: 0, opacity: 1 },
     hover: (i) => ({
-      y: -6,
+      y: -8,
       opacity: 0,
       transition: {
-        duration: 0.4,  // Slightly longer duration for the snappy effect
-        ease: [0.25, 0.1, 0.25, 1],  // Snappy cubic-bezier with slow start/end
-        delay: i * 0.015  // Tighter stagger for snappier feel
+        duration: 0.6,  // Slower duration for smoother effect
+        ease: [0.4, 0, 0.2, 1],  // Smoother easing
+        delay: i * 0.03  // Increased delay for more pronounced stagger
       }
     })
   };
@@ -40,9 +40,9 @@ const RollingText = ({ text, className = '', delay = 0 }) => {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.4,  // Slightly longer duration for the snappy effect
-        ease: [0.25, 0.1, 0.25, 1],  // Snappy cubic-bezier with slow start/end
-        delay: 0.06 + (i * 0.015)  // Tighter stagger for snappier feel
+        duration: 0.6,  // Slower duration for smoother effect
+        ease: [0.4, 0, 0.2, 1],  // Smoother easing
+        delay: 0.1 + (i * 0.03)  // Increased delay for more pronounced stagger
       }
     })
   };

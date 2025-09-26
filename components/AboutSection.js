@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState({});

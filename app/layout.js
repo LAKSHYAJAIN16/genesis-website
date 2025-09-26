@@ -1,10 +1,27 @@
 import { Instrument_Sans } from "next/font/google";
+import { Honk } from 'next/font/google';
+import localFont from 'next/font/local';
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-instrument-sans",
+});
+
+const ditty = localFont({
+  src: '../public/fonts/Ditty/Ditty.ttf',
+  variable: '--font-ditty',
+  display: 'swap',
+});
+
+const honk = Honk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-honk',
+  axes: ['MORF', 'SHLN'],
+  // These values will be overridden by CSS variables
+  axis: 'MORF 15, SHLN 50',
 });
 
 export const metadata = {
@@ -26,14 +43,13 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Genesis 2025 - The First High School Buildathon",
     description: "Transform your idea into a real startup in just 48 hours. October 10-12, 2025 in Toronto.",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${instrumentSans.variable}`}>
+    <html lang="en" className={`${instrumentSans.variable} ${ditty.variable} ${honk.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />

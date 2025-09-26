@@ -1,367 +1,391 @@
 'use client';
 
-import React from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const AnimatedBackground = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
-  
-  // Mouse position and interaction
+  const canvasRef = useRef(null);
+  const animationRef = useRef();
   const mousePosition = useRef({ x: 0, y: 0 });
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  
-  // Parallax effects with smoother spring physics
-  const y1 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -150]), {
-    stiffness: 80,
-    damping: 25,
-    restDelta: 0.001
-  });
-  
-  const y2 = useSpring(useTransform(scrollYProgress, [0, 1], [0, -75]), {
-    stiffness: 80,
-    damping: 25,
-    restDelta: 0.001
-  });
-  
-  const rotate = useSpring(useTransform(scrollYProgress, [0, 1], [0, 5]), {
-    stiffness: 40,
-    damping: 15,
-  });
-  
-  // Enhanced mouse position tracking with inertia
-  const updateMousePosition = useCallback((e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 40;
-    const y = (e.clientY / window.innerHeight - 0.5) * 40;
-    
-    mousePosition.current = { x, y };
-    mouseX.set(x * 0.5);
-    mouseY.set(y * 0.5);
-    setCursorPosition({ x: e.clientX, y: e.clientY });
-  }, [mouseX, mouseY]);
-  
-  // Set up event listeners with passive for better performance
-  useEffect(() => {
-    window.addEventListener('mousemove', updateMousePosition, { passive: true });
-    return () => window.removeEventListener('mousemove', updateMousePosition);
-  }, [updateMousePosition]);
+  const touchPosition = useRef({ x: 0, y: 0 });
+  const lastTime = useRef(0);
+  const particles = useRef([]);
+  const layers = useRef([]);
 
-  // State for particles and connections
-  const [particles, setParticles] = useState([]);
-  const [connections, setConnections] = useState([]);
-  const [isClient, setIsClient] = useState(false);
-  const [hoveredParticle, setHoveredParticle] = useState(null);
+  // Enhanced configuration
+  const config = {
+    // Base particles
+    particleCount: 200,
+    particleSize: 1.5,
+    particleBaseOpacity: 0.4,
+    particleActiveOpacity: 0.9,
+    
+    // Connections
+    lineBaseOpacity: 0.05,
+    lineActiveOpacity: 0.5,
+    lineDistance: 120,
+    lineMaxWidth: 1.5,
+    connectionDistance: 150,
+    maxConnections: 6,
+    
+    // Movement
+    baseMoveSpeed: 0.15,
+    mouseInfluence: 0.2,
+    touchInfluence: 0.4,
+    
+    // Colors
+    colors: [
+      { base: '#6366f1', highlight: '#818cf8' },
+      { base: '#8b5cf6', highlight: '#a78bfa' },
+      { base: '#ec4899', highlight: '#f472b6' },
+      { base: '#3b82f6', highlight: '#60a5fa' },
+      { base: '#10b981', highlight: '#34d399' }
+    ],
+    
+    // Layers (3D effect)
+    layers: 3,
+    layerDistance: 50,
+    
+    // Effects
+    enablePulse: true,
+    pulseSpeed: 0.5,
+    enableRotation: true,
+    rotationSpeed: 0.0005,
+    enableOrbit: true,
+    orbitRadius: 200,
+    orbitSpeed: 0.0003
+  };
 
-  // Initialize particles with more variety
-  useEffect(() => {
-    setIsClient(true);
+  // Initialize particles with 3D positions
+  const initParticles = (width, height) => {
+    particles.current = [];
+    layers.current = [];
     
-    // Generate particles with different types and behaviors
-    const particleTypes = [
-      { color: 'rgba(56, 189, 248, 0.8)', size: 1.5, speed: 0.2 },
-      { color: 'rgba(167, 139, 250, 0.8)', size: 1.2, speed: 0.15 },
-      { color: 'rgba(74, 222, 128, 0.8)', size: 1, speed: 0.1 },
-    ];
-    
-    const newParticles = Array.from({ length: 80 }).map((_, i) => {
-      const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
-      return {
-        id: `p-${i}-${Math.random().toString(36).slice(2, 9)}`,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: type.size,
-        color: type.color,
-        speed: type.speed * (Math.random() * 0.5 + 0.75),
-        direction: Math.random() * Math.PI * 2,
-        opacity: Math.random() * 0.5 + 0.3,
-        connections: []
-      };
-    });
-    
-    // Generate connections between nearby particles
-    const newConnections = [];
-    const connectionDistance = 15;
-    
-    newParticles.forEach((p1, i) => {
-      newParticles.slice(i + 1).forEach((p2) => {
-        const dx = p1.x - p2.x;
-        const dy = p1.y - p2.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+    // Create multiple layers for 3D effect
+    for (let l = 0; l < config.layers; l++) {
+      const layerParticles = [];
+      const layerZ = (l / (config.layers - 1)) * 2 - 1;
+      const scale = 0.5 + (1 - Math.abs(layerZ)) * 0.5;
+      
+      const particlesInLayer = Math.floor(config.particleCount / config.layers);
+      
+      for (let i = 0; i < particlesInLayer; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const z = (Math.random() - 0.5) * config.layerDistance * 2;
         
-        if (distance < connectionDistance) {
-          const opacity = 1 - (distance / connectionDistance) * 0.9;
-          newConnections.push({
-            id: `${p1.id}-${p2.id}`,
-            p1: p1.id,
-            p2: p2.id,
-            opacity: opacity * 0.3,
-            distance: distance
-          });
-          
-          p1.connections = [...(p1.connections || []), p2.id];
-          p2.connections = [...(p2.connections || []), p1.id];
-        }
+        const colorIndex = Math.floor(Math.random() * config.colors.length);
+        const size = config.particleSize * (0.7 + Math.random() * 0.6);
+        const speed = config.baseMoveSpeed * (0.5 + Math.random() * 0.5);
+        const angle = Math.random() * Math.PI * 2;
+        
+        layerParticles.push({
+          x, y, z,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size,
+          colorIndex,
+          baseX: x,
+          baseY: y,
+          baseZ: z,
+          orbitAngle: Math.random() * Math.PI * 2,
+          orbitRadius: config.orbitRadius * (0.5 + Math.random() * 0.5),
+          orbitSpeed: (Math.random() - 0.5) * config.orbitSpeed * 2,
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.02,
+          pulsePhase: Math.random() * Math.PI * 2,
+          connections: []
+        });
+      }
+      
+      layers.current.push({
+        z: layerZ,
+        scale,
+        particles: layerParticles
       });
-    });
+      
+      particles.current = particles.current.concat(layerParticles);
+    }
+  };
+
+  // Project 3D position to 2D
+  const project = (x, y, z, width, height) => {
+    const scale = 1 / (1 + z / 1000);
+    return {
+      x: x * scale + width / 2 * (1 - scale),
+      y: y * scale + height / 2 * (1 - scale),
+      scale
+    };
+  };
+
+  // Initialize canvas and animation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     
-    setParticles(newParticles);
-    setConnections(newConnections);
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let centerX = width / 2;
+    let centerY = height / 2;
+    let time = 0;
     
-    // Animate particles
-    let animationFrame;
-    const animate = () => {
-      setParticles(prevParticles => 
-        prevParticles.map(p => {
-          let newX = p.x + Math.cos(p.direction) * p.speed * 0.1;
-          let newY = p.y + Math.sin(p.direction) * p.speed * 0.1;
-          
-          // Bounce off edges
-          if (newX < 0 || newX > 100) {
-            newX = Math.max(0, Math.min(100, newX));
-            p.direction = Math.PI - p.direction;
-          }
-          if (newY < 0 || newY > 100) {
-            newY = Math.max(0, Math.min(100, newY));
-            p.direction = -p.direction;
-          }
-          
-          // Random direction changes
-          if (Math.random() < 0.02) {
-            p.direction += (Math.random() - 0.5) * 0.5;
-          }
-          
-          return { ...p, x: newX, y: newY };
-        })
-      );
-      animationFrame = requestAnimationFrame(animate);
+    // Set initial canvas size
+    canvas.width = width;
+    canvas.height = height;
+    
+    // Initialize particles
+    initParticles(width, height);
+
+    // Handle resize
+    const handleResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      centerX = width / 2;
+      centerY = height / 2;
+      canvas.width = width;
+      canvas.height = height;
+      initParticles(width, height);
+    };
+
+    // Handle mouse and touch events
+    const handleMouseMove = (e) => {
+      mousePosition.current = { x: e.clientX, y: e.clientY };
     };
     
-    animationFrame = requestAnimationFrame(animate);
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        touchPosition.current = { 
+          x: e.touches[0].clientX, 
+          y: e.touches[0].clientY 
+        };
+      }
+    };
+
+    // Update particle positions and connections
+    const updateParticles = (deltaTime) => {
+      time += deltaTime * 0.001;
+      
+      layers.current.forEach((layer) => {
+        layer.particles.forEach(particle => {
+          // Apply base movement
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+          
+          // Apply orbit effect
+          if (config.enableOrbit) {
+            particle.orbitAngle += particle.orbitSpeed * deltaTime;
+            const orbitX = Math.cos(particle.orbitAngle) * particle.orbitRadius;
+            const orbitY = Math.sin(particle.orbitAngle) * particle.orbitRadius * 0.5;
+            particle.x = particle.baseX + orbitX;
+            particle.y = particle.baseY + orbitY;
+          }
+          
+          // Apply rotation
+          if (config.enableRotation) {
+            particle.rotation += particle.rotationSpeed * deltaTime;
+            const dx = particle.x - centerX;
+            const dy = particle.y - centerY;
+            particle.x = centerX + Math.cos(particle.rotation) * dx - Math.sin(particle.rotation) * dy;
+            particle.y = centerY + Math.sin(particle.rotation) * dx + Math.cos(particle.rotation) * dy;
+          }
+          
+          // Apply pulse effect
+          if (config.enablePulse) {
+            particle.pulsePhase += config.pulseSpeed * 0.01;
+            const pulse = 0.8 + Math.sin(particle.pulsePhase) * 0.2;
+            particle.currentSize = particle.size * pulse;
+          } else {
+            particle.currentSize = particle.size;
+          }
+          
+          // Bounce off walls with damping
+          if (particle.x < 0 || particle.x > width) {
+            particle.vx *= -0.9;
+            particle.x = Math.max(0, Math.min(width, particle.x));
+          }
+          if (particle.y < 0 || particle.y > height) {
+            particle.vy *= -0.9;
+            particle.y = Math.max(0, Math.min(height, particle.y));
+          }
+          
+          // Reset connections for this frame
+          particle.connections = [];
+        });
+      });
+      
+      // Update connections between particles
+      for (let i = 0; i < particles.current.length; i++) {
+        const p1 = particles.current[i];
+        
+        for (let j = i + 1; j < particles.current.length; j++) {
+          const p2 = particles.current[j];
+          
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < config.connectionDistance && 
+              p1.connections.length < config.maxConnections && 
+              p2.connections.length < config.maxConnections) {
+            
+            const strength = 1 - (distance / config.connectionDistance);
+            
+            p1.connections.push({
+              target: p2,
+              strength: strength
+            });
+            
+            p2.connections.push({
+              target: p1,
+              strength: strength
+            });
+          }
+        }
+      }
+    };
     
-    return () => cancelAnimationFrame(animationFrame);
+    // Draw particles and connections
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Draw connections first (behind particles)
+      ctx.lineWidth = config.lineMaxWidth;
+      
+      particles.current.forEach(particle => {
+        const pos1 = project(particle.x, particle.y, particle.z, width, height);
+        
+        particle.connections.forEach(connection => {
+          const particle2 = connection.target;
+          const pos2 = project(particle2.x, particle2.y, particle2.z, width, height);
+          
+          if (!pos1 || !pos2) return;
+          
+          const strength = connection.strength;
+          const gradient = ctx.createLinearGradient(pos1.x, pos1.y, pos2.x, pos2.y);
+          const color1 = config.colors[particle.colorIndex].base;
+          const color2 = config.colors[particle2.colorIndex].base;
+          
+          gradient.addColorStop(0, color1);
+          gradient.addColorStop(1, color2);
+          
+          ctx.beginPath();
+          ctx.strokeStyle = gradient;
+          ctx.globalAlpha = config.lineBaseOpacity + 
+                           (config.lineActiveOpacity - config.lineBaseOpacity) * strength;
+          ctx.lineWidth = config.lineMaxWidth * strength * pos1.scale * 0.5;
+          
+          const midX = (pos1.x + pos2.x) / 2;
+          const midY = (pos1.y + pos2.y) / 2;
+          const cpx = midX + (Math.random() - 0.5) * 20 * (1 - strength);
+          const cpy = midY + (Math.random() - 0.5) * 20 * (1 - strength);
+          
+          ctx.moveTo(pos1.x, pos1.y);
+          ctx.quadraticCurveTo(cpx, cpy, pos2.x, pos2.y);
+          ctx.stroke();
+        });
+      });
+      
+      // Reset global alpha
+      ctx.globalAlpha = 1;
+      
+      // Draw particles on top
+      particles.current.forEach(particle => {
+        const pos = project(particle.x, particle.y, particle.z, width, height);
+        if (!pos) return;
+        
+        // Calculate distance to mouse/touch for interactive effects
+        let distanceToMouse = Infinity;
+        let distanceToTouch = Infinity;
+        
+        if (mousePosition.current) {
+          const dx = pos.x - mousePosition.current.x;
+          const dy = pos.y - mousePosition.current.y;
+          distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+        }
+        
+        if (touchPosition.current) {
+          const dx = pos.x - touchPosition.current.x;
+          const dy = pos.y - touchPosition.current.y;
+          distanceToTouch = Math.sqrt(dx * dx + dy * dy);
+        }
+        
+        const mouseInfluence = Math.min(1, Math.max(0, 1 - distanceToMouse / 200)) * config.mouseInfluence;
+        const touchInfluence = Math.min(1, Math.max(0, 1 - distanceToTouch / 200)) * config.touchInfluence;
+        const influence = Math.max(mouseInfluence, touchInfluence);
+        
+        const size = particle.currentSize * pos.scale * (1 + influence * 0.5);
+        const color = config.colors[particle.colorIndex];
+        const highlight = influence > 0.1;
+        
+        // Outer glow
+        if (highlight) {
+          const gradient = ctx.createRadialGradient(
+            pos.x, pos.y, 0,
+            pos.x, pos.y, size * 2
+          );
+          gradient.addColorStop(0, color.highlight + '80');
+          gradient.addColorStop(1, color.base + '00');
+          
+          ctx.beginPath();
+          ctx.fillStyle = gradient;
+          ctx.arc(pos.x, pos.y, size * 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        
+        // Particle
+        ctx.beginPath();
+        ctx.fillStyle = highlight ? color.highlight : color.base;
+        ctx.globalAlpha = config.particleBaseOpacity + 
+                         (config.particleActiveOpacity - config.particleBaseOpacity) * influence;
+        ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+    };
+    
+    // Main animation loop
+    let lastTime = 0;
+    const animate = (currentTime) => {
+      if (!lastTime) lastTime = currentTime;
+      const deltaTime = currentTime - lastTime;
+      lastTime = currentTime;
+      
+      updateParticles(deltaTime);
+      draw();
+      
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    // Start animation
+    animationRef.current = requestAnimationFrame(animate);
+    
+    // Add event listeners
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    
+    // Cleanup function
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
   }, []);
 
   return (
-    <div 
-      ref={containerRef}
-      className="fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
-    >
-      {/* Animated gradient overlay */}
-      <motion.div 
-        className="absolute inset-0 opacity-80"
+    <div className="fixed inset-0 -z-50 overflow-hidden w-screen h-screen">
+      <canvas 
+        ref={canvasRef}
+        className="w-full h-full block"
         style={{
-          background: 'radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
-        }}
-        animate={{
-          background: [
-            'radial-gradient(circle at 30% 30%, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
-            'radial-gradient(circle at 70% 70%, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
-            'radial-gradient(circle at 50% 20%, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%)',
-          ]
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut'
-        }}
-      />
-      
-      {/* Connection lines */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {connections.map(conn => {
-          const p1 = particles.find(p => p.id === conn.p1);
-          const p2 = particles.find(p => p.id === conn.p2);
-          
-          if (!p1 || !p2) return null;
-          
-          const isHovered = hoveredParticle && (p1.id === hoveredParticle || p2.id === hoveredParticle);
-          const strokeWidth = isHovered ? 0.25 : 0.15;
-          const opacity = isHovered ? conn.opacity * 1.5 : conn.opacity * 0.7;
-          
-          return (
-            <line
-              key={conn.id}
-              x1={p1.x}
-              y1={p1.y}
-              x2={p2.x}
-              y2={p2.y}
-              stroke="rgba(255, 255, 255, 0.2)"
-              strokeWidth={strokeWidth}
-              strokeLinecap="round"
-              style={{
-                opacity: opacity,
-                transition: 'all 0.3s ease-out'
-              }}
-            />
-          );
-        })}
-      </svg>
-      
-      {/* Particles */}
-      <div className="absolute inset-0">
-        {particles.map(particle => (
-          <motion.div
-            key={particle.id}
-            className="absolute rounded-full"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              width: `${particle.size}px`,
-              height: `${particle.size}px`,
-              backgroundColor: particle.color,
-              opacity: hoveredParticle === particle.id ? 1 : particle.opacity,
-              boxShadow: hoveredParticle === particle.id 
-                ? `0 0 15px 2px ${particle.color}` 
-                : `0 0 5px 0 ${particle.color}`,
-              transform: hoveredParticle === particle.id ? 'scale(1.5)' : 'scale(1)',
-              transition: 'all 0.3s ease-out',
-              zIndex: hoveredParticle === particle.id ? 10 : 1,
-              cursor: 'pointer',
-            }}
-            onMouseEnter={() => setHoveredParticle(particle.id)}
-            onMouseLeave={() => setHoveredParticle(null)}
-            whileHover={{
-              scale: 2,
-              opacity: 1,
-              transition: { duration: 0.2 }
-            }}
-            animate={{
-              x: [0, Math.random() * 4 - 2, 0],
-              y: [0, Math.random() * 4 - 2, 0],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 4,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut'
-            }}
-          />
-        ))}
-      </div>
-      
-      {/* Interactive cursor effect */}
-      <motion.div 
-        className="fixed w-64 h-64 rounded-full pointer-events-none"
-        style={{
-          left: cursorPosition.x - 128,
-          top: cursorPosition.y - 128,
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0) 70%)',
-          zIndex: 5
-        }}
-      />
-      
-      {/* Subtle noise texture */}
-      <div 
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' /%3E%3C/svg%3E")',
-          mixBlendMode: 'overlay'
-        }}
-      />
-      
-      {/* Animated glow effects */}
-      <motion.div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 60%)',
-          opacity: 0.7,
-          mixBlendMode: 'overlay'
-        }}
-        animate={{
-          opacity: [0.5, 0.7, 0.5],
-          background: [
-            'radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 60%)',
-            'radial-gradient(circle at 70% 70%, rgba(99, 102, 241, 0.15) 0%, transparent 60%)',
-            'radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 60%)',
-          ]
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut'
-        }}
-      />
-      
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {Array.from({ length: 21 }).map((_, i) => {
-            const pos = i * 5;
-            const isMajor = i % 5 === 0;
-            const opacity = isMajor ? 0.1 : 0.05;
-            const strokeWidth = isMajor ? 0.15 : 0.1;
-            
-            return (
-              <React.Fragment key={`grid-${i}`}>
-                <line
-                  x1={pos}
-                  y1="0"
-                  x2={pos}
-                  y2="100"
-                  stroke="white"
-                  strokeWidth={strokeWidth}
-                  strokeOpacity={opacity}
-                />
-                <line
-                  x1="0"
-                  y1={pos}
-                  x2="100"
-                  y2={pos}
-                  stroke="white"
-                  strokeWidth={strokeWidth}
-                  strokeOpacity={opacity}
-                />
-              </React.Fragment>
-            );
-          })}
-        </svg>
-      </div>
-      
-      {/* Animated floating elements */}
-      <motion.div 
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 opacity-10"
-        style={{
-          filter: 'blur(60px)',
-          transform: 'translate(-50%, -50%)'
-        }}
-        animate={{
-          x: ['-10%', '10%', '-10%'],
-          y: ['-10%', '10%', '-10%'],
-          scale: [1, 1.1, 1]
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut'
-        }}
-      />
-      
-      <motion.div 
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 opacity-10"
-        style={{
-          filter: 'blur(60px)',
-          transform: 'translate(50%, 50%)'
-        }}
-        animate={{
-          x: ['10%', '-10%', '10%'],
-          y: ['10%', '-10%', '10%'],
-          scale: [1, 1.2, 1]
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'easeInOut',
-          delay: 5
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
         }}
       />
     </div>

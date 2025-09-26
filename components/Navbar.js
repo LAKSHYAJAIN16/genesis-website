@@ -1,10 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
+  const [isVisible, setIsVisible] = useState(true);
   const [scrollY, setScrollY] = useState(0);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
   const pathname = usePathname();
   const isActive = (path) => pathname === path;
   
@@ -15,27 +19,62 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Only update state if scroll position changed significantly
+          if (Math.abs(currentScrollY - lastScrollY.current) > 5) {
+            // Hide navbar when scrolling down, show when scrolling up
+            if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+              // Scrolling down
+              setIsVisible(false);
+            } else if (currentScrollY < lastScrollY.current) {
+              // Scrolling up
+              setIsVisible(true);
+            }
+            
+            // Always show navbar at the top of the page
+            if (currentScrollY < 10) {
+              setIsVisible(true);
+            }
+            
+            lastScrollY.current = currentScrollY;
+            setScrollY(currentScrollY);
+          }
+          ticking.current = false;
+        });
+        ticking.current = true;
+      }
     };
     
-    // Set initial scroll position
-    handleScroll();
-    
+    // Use passive scroll for better performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div 
-      className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-sm transition-all duration-500 ease-out origin-top"
-      style={{
-        transform: `scaleY(${scale})`,
-        transformOrigin: 'top',
-        paddingTop: `${paddingY * 0.75}rem`,
-        paddingBottom: `${paddingY * 0.75}rem`,
-        boxShadow: scrollY > 10 ? '0 4px 30px rgba(0, 0, 0, 0.3)' : 'none',
-        opacity: 1 - Math.min(scrollY / 1000, 0.1), // Slight fade effect
+    <motion.div 
+      className="fixed top-0 left-0 right-0 z-50"
+      initial={false}
+      animate={{
+        y: isVisible ? 0 : '-100%',
+        opacity: isVisible ? 1 : 0
       }}
+      transition={{
+        type: 'spring',
+        damping: 25,  // Increased damping for less oscillation
+        stiffness: 300,  // Increased stiffness for snappier movement
+        mass: 0.5  // Lower mass for faster response
+      }}
+    >
+      <div 
+        className="w-full bg-black/70 backdrop-blur-xl transition-all duration-300"
+        style={{
+          paddingTop: `${paddingY * 0.75}rem`,
+          paddingBottom: `${paddingY * 0.75}rem`,
+          boxShadow: scrollY > 10 ? '0 4px 30px rgba(0, 0, 0, 0.5)' : 'none',
+        }}
     >
       <nav className="container mx-auto flex justify-between items-center py-3 px-6 md:px-8">
       <a 
@@ -89,7 +128,7 @@ export default function Navbar() {
         </button>
       </a>
       </nav>
-      <div className="h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent w-full"></div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
