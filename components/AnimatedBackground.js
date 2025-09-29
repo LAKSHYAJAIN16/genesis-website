@@ -163,7 +163,7 @@ const AnimatedBackground = () => {
 
     // Update particle positions and connections
     const updateParticles = (deltaTime) => {
-      time += deltaTime * 0.001;
+      time += deltaTime * 0.0005;
       
       layers.current.forEach((layer) => {
         layer.particles.forEach(particle => {
@@ -376,7 +376,7 @@ const AnimatedBackground = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden w-screen h-screen">
+    <div className="fixed inset-0 z-50 overflow-hidden w-screen h-screen">
       <canvas 
         ref={canvasRef}
         className="w-full h-full block"

@@ -7,520 +7,255 @@ import PrizesSection from '../components/PrizesSection';
 import AboutSection from '../components/AboutSection';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
-import AnimatedBackground from '../components/AnimatedBackground';
 import Navbar from '../components/Navbar';
 import TrophyCube from '@/components/TrophyCube';
+import VideoBackground from '@/components/VideoBackground';
 
-// Add CSS animations
 const styles = `
-  html {
-    scroll-behavior: smooth;
-  }
-  @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
-  
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  @keyframes wave {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100vw); }
-  }
-  
-  @keyframes floatCTA {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-  }
-  
-  @keyframes fall {
-    0% { transform: translateY(-100px); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(100vh); opacity: 0; }
-  }
-  
-  @keyframes scroll-leaders {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-  }
-  
-  @keyframes blob {
-    0% {
-      transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-      transform: translate(0px, 0px) scale(1);
-    }
-  }
-  
-  .animate-blob {
-    animation: blob 7s infinite;
-  }
-  
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  
-  .animation-delay-4000 {
-    animation-delay: 4s;
-  }
-  
-  @keyframes glow {
-    0%, 100% { 
-      opacity: 0.3;
-      transform: scale(1);
-    }
-    50% { 
-      opacity: 0.6;
-      transform: scale(1.05);
-    }
-  }
-  
-  @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  @keyframes glitch-1 {
-    0%, 100% { transform: translate(0px, 0px); }
-    20% { transform: translate(2px, -1px); }
-    40% { transform: translate(-1px, 2px); }
-    60% { transform: translate(3px, 1px); }
-    80% { transform: translate(1px, -2px); }
-  }
-  
-  @keyframes glitch-2 {
-    0%, 100% { transform: translate(3px, 3px); }
-    25% { transform: translate(6px, 1px); }
-    50% { transform: translate(1px, 6px); }
-    75% { transform: translate(7px, 4px); }
-  }
-  
-  @keyframes glitch-3 {
-    0%, 100% { transform: translate(6px, 6px); }
-    15% { transform: translate(9px, 4px); }
-    35% { transform: translate(4px, 9px); }
-    55% { transform: translate(10px, 7px); }
-    75% { transform: translate(7px, 10px); }
-  }
-  
-  @keyframes jitter-1 {
-    0%, 100% { transform: translate(0px, 0px); }
-    10% { transform: translate(9px, -6px); }
-    20% { transform: translate(-6px, 9px); }
-    30% { transform: translate(12px, 6px); }
-    40% { transform: translate(-9px, -12px); }
-    50% { transform: translate(6px, 0px); }
-    60% { transform: translate(-12px, 3px); }
-    70% { transform: translate(3px, 12px); }
-    80% { transform: translate(0px, -9px); }
-    90% { transform: translate(9px, -3px); }
-  }
-  
-  @keyframes jitter-2 {
-    0%, 100% { transform: translate(3px, 3px); }
-    12% { transform: translate(21px, 0px); }
-    24% { transform: translate(-3px, 21px); }
-    36% { transform: translate(24px, 18px); }
-    48% { transform: translate(-6px, -3px); }
-    60% { transform: translate(18px, 3px); }
-    72% { transform: translate(0px, 15px); }
-    84% { transform: translate(15px, 24px); }
-    96% { transform: translate(3px, -6px); }
-  }
-  
-  @keyframes jitter-3 {
-    0%, 100% { transform: translate(6px, 6px); }
-    8% { transform: translate(30px, 6px); }
-    16% { transform: translate(6px, 30px); }
-    24% { transform: translate(33px, 27px); }
-    32% { transform: translate(3px, 3px); }
-    40% { transform: translate(27px, 9px); }
-    48% { transform: translate(9px, 27px); }
-    56% { transform: translate(24px, 33px); }
-    64% { transform: translate(12px, 0px); }
-    72% { transform: translate(36px, 12px); }
-    80% { transform: translate(0px, 24px); }
-    88% { transform: translate(30px, 30px); }
-    96% { transform: translate(6px, 6px); }
-  }
-  
-  .animate-grid { animation: gridMove 20s ease-in-out infinite alternate; }
+  html { scroll-behavior: smooth; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .fade-in { animation: fadeIn 1s ease-out forwards; }
+
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
   .animate-float { animation: float 6s ease-in-out infinite; }
-  .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-  .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
-  .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
-  .animate-glow { animation: glow 3s ease-in-out infinite; }
-  .animate-glitch-1 { animation: glitch-1 0.3s ease-in-out infinite; }
-  
-  /* Prize section styles */
-  .text-gold-400 {
-    color: #fbbf24;
+
+  @keyframes blob {
+    0% { transform: translate(0px,0px) scale(1); }
+    33% { transform: translate(30px,-50px) scale(1.1); }
+    66% { transform: translate(-20px,20px) scale(0.9); }
+    100% { transform: translate(0px,0px) scale(1); }
   }
-  .border-gold-400 {
-    border-color: rgba(251, 191, 36, 0.3);
-  }
-  .animate-glitch-2 { animation: glitch-2 0.4s ease-in-out infinite; }
-  .animate-glitch-3 { animation: glitch-3 0.35s ease-in-out infinite; }
-  .animate-jitter-1 { animation: jitter-1 2s ease-in-out infinite; }
-  .animate-jitter-2 { animation: jitter-2 2.5s ease-in-out infinite; }
-  .animate-jitter-3 { animation: jitter-3 3s ease-in-out infinite; }
-  .animate-scroll-leaders { animation: scroll-leaders 40s linear infinite; }
-  .animate-spin-slow { animation: spin 20s linear infinite; }
-  .animate-spin-reverse { animation: spin 15s linear infinite reverse; }
-  .animate-particle { animation: particle 10s linear infinite; }
-  
-  @keyframes particle {
-    0% { 
-      transform: translateY(100vh) scale(0);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% { 
-      transform: translateY(-100vh) scale(1);
-      opacity: 0;
-    }
-  }
+  .animate-blob { animation: blob 7s infinite; }
+
+  .text-gold-400 { color: #fbbf24; }
+  .border-gold-400 { border-color: rgba(251,191,36,0.3); }
 `;
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400','500','600','700','800','900'],
   display: 'swap',
 });
 
 export default function Home() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [animationProgress, setAnimationProgress] = useState(0);
+  const [countdown, setCountdown] = useState({ days:0,hours:0,minutes:0,seconds:0 });
+  const [showHero, setShowHero] = useState(true);
 
   useEffect(() => {
-    setIsVisible(true);
-    
-    // Set hackathon date (example: 30 days from now)
     const hackathonDate = new Date();
     hackathonDate.setDate(hackathonDate.getDate() + 30);
-    
-    const timer = setInterval(() => {
+
+    const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = hackathonDate.getTime() - now;
-      
       if (distance > 0) {
         setCountdown({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+          days: Math.floor(distance/(1000*60*60*24)),
+          hours: Math.floor((distance%(1000*60*60*24))/(1000*60*60)),
+          minutes: Math.floor((distance%(1000*60*60))/(1000*60)),
+          seconds: Math.floor((distance%(1000*60))/1000)
         });
       }
     }, 1000);
 
-    // Start animation immediately
-    const startTime = Date.now();
-    const duration = 1500; // 1.5 seconds for faster animation
-    
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      setAnimationProgress(progress);
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-    
-    animate();
-
-    return () => {
-      clearInterval(timer);
-    };
+    return () => clearInterval(interval);
   }, []);
 
-  // Calculate positions for corner texts
-  const getCornerPosition = (corner, progress) => {
-    const titleX = 50;
-    const titleY = 20; // Position higher to prevent text cutoff
-    
-    const positions = {
-      topLeft: { start: { x: 15, y: 20 }, end: { x: titleX - 5, y: titleY + 15 } }, // hackathon - slightly left and lower
-      topRight: { start: { x: 85, y: 20 }, end: { x: titleX + 5, y: titleY + 15 } }, // bootcamp - slightly right and lower
-      bottomLeft: { start: { x: 15, y: 80 }, end: { x: titleX, y: titleY } },
-      bottomRight: { start: { x: 85, y: 80 }, end: { x: titleX, y: titleY } }
-    };
-    
-    const pos = positions[corner];
-    return {
-      x: pos.start.x + (pos.end.x - pos.start.x) * progress,
-      y: pos.start.y + (pos.end.y - pos.start.y) * progress
-    };
-  };
-
   return (
-    <div className={`min-h-screen bg-black text-white relative overflow-x-hidden ${poppins.className}`}>
-      {/* Inject CSS animations */}
+    <div className={`min-h-screen bg-black text-white relative overflow-hidden ${poppins.className}`}>
       <style jsx>{styles}</style>
-      
-      {/* New Animated Background */}
- <AnimatedBackground />
-      {/* Navigation */}
-      <Navbar />
 
+      {/* Navbar */}
+      <Navbar className="relative z-10" />
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center pt-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <motion.div 
-          className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          {/* Animated title */}
-          <motion.h1 
-            className="text-6xl md:text-8xl mb-6 bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent font-mono"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            {animationProgress < 0.2 && (
-              <motion.span 
-                className="bg-gradient-to-r from-red-400 to-red-500 bg-clip-text text-transparent"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                hackathon_
-              </motion.span>
-            )}
-            {animationProgress >= 0.2 && animationProgress < 0.4 && (
-              <motion.span 
-                className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                bootcamp_
-              </motion.span>
-            )}
-            {animationProgress >= 0.4 && animationProgress < 0.6 && (
-              <motion.span 
-                className="bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                launchpad_
-              </motion.span>
-            )}
-            {animationProgress >= 0.6 && animationProgress < 0.8 && (
-              <motion.span 
-                className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                incubator_
-              </motion.span>
-            )}
-            {animationProgress >= 0.8 && (
-              <motion.span 
-                className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
-              >
+      {/* Hero Section */}
+      <section className="mt-8 relative px-8 py-20 z-10">
+        <div className={`w-full max-w-7xl mx-auto transition-opacity duration-1000 ${showHero ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            {/* Left Side - Text Content */}
+            <div className="text-white lg:w-1/2">
+              <h1 className="mb-6 font-bold tracking-tighter leading-[0.9]" 
+                  style={{ fontSize: 'clamp(4rem, 15vw, 12rem)' }}>
                 genesis
-              </motion.span>
-            )}
-          </motion.h1>
-          
-          <motion.p 
-            className="text-xl md:text-2xl mb-4 text-gray-300"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            the first high school buildathon.
-          </motion.p>
-          
-          <motion.div 
-            className="mb-12 text-gray-400"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <p className="text-lg md:text-xl mb-2">October 10-12, 2025</p>
-            <p className="text-md md:text-lg">Toronto, Ontario</p>
-          </motion.div>
-          
-          {/* CTA Buttons */}
-          <motion.div 
-            className="flex flex-col sm:flex-row justify-center gap-6 mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <motion.a 
-              href="#register" 
-              className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold rounded-full hover:opacity-90 transition-all"
-              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(34, 211, 238, 0.5)' }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Register Now
-            </motion.a>
-            <motion.a 
-              href="#about" 
-              className="px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all"
-              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Learn More
-            </motion.a>
-          </motion.div>
-        </motion.div>
-      </div>
+              </h1>
+              <p className="text-2xl md:text-3xl mb-6 max-w-xl mt-16">
+                Canada's first high school buildathon.
+              </p>
+
+              {/* Countdown */}
+              <div className="flex gap-4 text-xl font-mono mb-12">
+                <div>{countdown.days}d</div>
+                <div>{countdown.hours}h</div>
+                <div>{countdown.minutes}m</div>
+                <div>{countdown.seconds}s</div>
+              </div>
+
+              {/* CTA Buttons - Side by Side */}
+              <div className="flex flex-row gap-4">
+                <a href="#register" className="px-8 py-4 bg-white text-black font-semibold rounded hover:bg-gray-200 transition-colors whitespace-nowrap">
+                  Register Now
+                </a>
+                <a href="#about" className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded hover:bg-white/10 transition-colors whitespace-nowrap">
+                  Learn More
+                </a>
+              </div>
+            </div>
+
+            {/* Right Side - Video */}
+            <div className="w-full lg:w-1/2 mt-12 lg:mt-48 relative">
+              {/* Less Curved Arrow - From Bottom Left */}
+              <div className="absolute -left-32 bottom-1/4 transform translate-y-1/2 hidden lg:block">
+                <div className="relative">
+                  <svg width="100" height="80" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                    <path d="M5,40 C5,40 20,60 50,50 C80,40 85,10 85,10" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+                    <path d="M80 10L90 5L85 15" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+                  </svg>
+                  <span className="absolute left-0 bottom-0 w-28 text-sm font-medium text-white">
+                    Watch our award winning video!
+                  </span>
+                </div>
+              </div>
+              
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10 transform transition-all duration-500 hover:scale-[1.02]">
+                <VideoBackground />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Classic Ticket Section */}
+      <section className="relative z-10 -mt-20 px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="relative overflow-hidden" style={{
+            background: 'linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%)',
+            padding: '6px',
+            clipPath: 'polygon(30px 0%, calc(100% - 30px) 0%, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 30px 100%, 0% calc(100% - 30px), 0% 30px)'
+          }}>
+            <style>{`
+              .ticket-arrow {
+                width: 0;
+                height: 0;
+                border-left: 20px solid transparent;
+                border-right: 20px solid transparent;
+                border-top: 20px solid #1e3a8a;
+              }
+              .ticket-section {
+                text-wrap: normal;
+              }
+              .ticket-video {
+                position: relative;
+                top: -100px;
+              }
+            `}</style>
+            <div className="bg-blue-200 p-4 relative" style={{
+              clipPath: 'polygon(16px 0%, calc(100% - 16px) 0%, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0% calc(100% - 16px), 0% 16px)'
+            }}>
+              <div className="text-center mb-4">
+                <div className="text-blue-900 text-xl font-bold mb-1">ADMIT ONE</div>
+                <div className="text-blue-800 text-xs uppercase tracking-widest">GENESIS 2025</div>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-3 mb-4">
+                <div className="text-center p-3 bg-white/90 rounded border border-blue-200 shadow-sm">
+                  <div className="text-blue-700 text-xs font-semibold uppercase tracking-wider mb-1">Date</div>
+                  <div className="text-blue-900 font-bold text-lg">OCT 15-17</div>
+                  <div className="text-blue-800 text-xs">2025</div>
+                </div>
+                
+                <div className="text-center p-3 bg-white/90 rounded border border-blue-200 shadow-sm">
+                  <div className="text-blue-700 text-xs font-semibold uppercase tracking-wider mb-1">Time</div>
+                  <div className="text-blue-900 font-bold text-lg">9:00 AM</div>
+                  <div className="text-blue-800 text-xs">to 8:00 PM</div>
+                </div>
+                
+                <div className="text-center p-3 bg-white/90 rounded border border-blue-200 shadow-sm">
+                  <div className="text-blue-700 text-xs font-semibold uppercase tracking-wider mb-1">Location</div>
+                  <div className="text-blue-900 font-bold text-base">TORONTO, ON</div>
+                  <div className="text-blue-800 text-xs">Venue TBA</div>
+                </div>
+              </div>
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-2 border-dashed border-blue-300"></div>
+                </div>
+                <div className="absolute -left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-blue-50 rounded-full border-2 border-black"></div>
+                <div className="absolute -right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-blue-50 rounded-full border-2 border-black"></div>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-3 pt-4 text-center">
+                <div>
+                  <div className="text-2xl font-bold text-blue-900">48</div>
+                  <div className="text-xs uppercase tracking-wider text-blue-700">Hours</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-blue-900">200+</div>
+                  <div className="text-xs uppercase tracking-wider text-blue-700">Hackers</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-blue-900">$10K+</div>
+                  <div className="text-xs uppercase tracking-wider text-blue-700">Prizes</div>
+                </div>
+              </div>
+              
+              <div className="mt-6 text-center">
+                <a 
+                  href="#register" 
+                  className="inline-block px-6 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md transform hover:scale-105 transition-all duration-200"
+                >
+                  Claim Your Ticket
+                </a>
+              </div>
+              
+              <div className="absolute top-4 right-4 text-blue-200 text-2xl">★</div>
+              <div className="absolute bottom-4 left-4 text-blue-200 text-2xl">★</div>
+              <div className="absolute top-4 left-4 text-blue-200 text-2xl">★</div>
+              <div className="absolute bottom-4 right-4 text-blue-200 text-2xl">★</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* About Section */}
       <AboutSection />
 
-      {/* FAQ Section */}
-      <FAQ />
-
       {/* Prizes Section */}
       <section id="prizes" className="relative z-10 py-32 px-6 bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
-        {/* Background elements */}
-        <motion.div 
-          className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
-          transition={{ duration: 2 }}
-        >
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.15]">
           <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-soft-light filter blur-3xl"></div>
           <div className="absolute bottom-1/3 -right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-soft-light filter blur-3xl"></div>
-        </motion.div>
-
+        </div>
         <div className="max-w-7xl mx-auto relative">
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-6xl mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent font-bold">
-              prizes
-            </h2>
+          <motion.div className="text-center mb-20" initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.8}}>
+            <h2 className="text-4xl md:text-6xl mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent font-bold">prizes</h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Compete for amazing prizes and the chance to showcase your startup to investors.
             </p>
           </motion.div>
 
-          {/* Trophy Showcase */}
           <div className="flex flex-col lg:flex-row items-center justify-center gap-16 mb-32">
-            <motion.div 
-              className="flex-shrink-0"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <TrophyCube />
-            </motion.div>
-            <motion.div 
-              className="max-w-2xl"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
+            <div className="flex-shrink-0"><TrophyCube /></div>
+            <div className="max-w-2xl">
               <h3 className="text-4xl bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6 font-bold">
                 the legendary unicorn trophy
               </h3>
               <div className="space-y-4 text-gray-300 text-lg">
                 <p>A custom-designed golden unicorn trophy that represents the magical transformation from idea to startup.</p>
                 <p>Crafted with premium materials and featuring intricate details, this trophy will become a centerpiece in your journey as an entrepreneur.</p>
-                <motion.p 
-                  className="text-yellow-400 flex items-center gap-2"
-                  animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
+                <p className="text-yellow-400 flex items-center gap-2 opacity-80">
                   <span className="inline-block animate-bounce">🎮</span> Interactive 3D model - click and drag to rotate!
-                </motion.p>
+                </p>
               </div>
-            </motion.div>
+            </div>
           </div>
-            
         </div>
       </section>
 
-      {/* Footer */}
+      {/* FAQ Section */}
+      <FAQ />
+
       <Footer />
     </div>
   );
