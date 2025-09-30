@@ -118,7 +118,7 @@ export default function Navbar() {
           }`}></div>
         </a>
       </div>
-      <a href="https://form.jotform.com/252578355100252" target="_blank" rel="noopener noreferrer">
+      <a href="/application" className="inline-block">
         <button className="relative overflow-hidden bg-gradient-to-r from-white to-gray-200 text-black px-6 py-2 rounded-full font-semibold hover:scale-105 transition-all duration-300 cursor-pointer flex items-center gap-2 group/btn">
           <span className="relative z-10">apply</span>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 -translate-x-full group-hover/btn:translate-x-full"></div>

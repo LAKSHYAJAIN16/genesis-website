@@ -3,95 +3,113 @@
 import { useRef, useState, useEffect } from 'react';
 
 export default function VideoBackground() {
-  // Player state
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef(null);
+  const containerRef = useRef(null);
 
-  // Format time in MM:SS
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
-  // Update current time
+  // Handle fullscreen change
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
 
-    const updateTime = () => setCurrentTime(video.currentTime);
-    video.addEventListener('timeupdate', updateTime);
-    return () => video.removeEventListener('timeupdate', updateTime);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
   }, []);
 
-  // Set video duration when loaded
-  const handleLoadedMetadata = () => {
-    setDuration(videoRef.current.duration);
-  };
-
-  // Toggle play/pause
-  const togglePlay = () => {
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
+  // Toggle fullscreen
+  const toggleFullscreen = async (e) => {
+    e.stopPropagation();
+    
+    if (!isFullscreen) {
+      // Enter custom fullscreen
+      if (containerRef.current) {
+        try {
+          if (containerRef.current.requestFullscreen) {
+            await containerRef.current.requestFullscreen();
+          }
+        } catch (err) {
+          console.error('Error attempting to enable fullscreen:', err);
+        }
+      }
     } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
+      // Exit fullscreen
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      }
     }
   };
 
-  // Handle seek
-  const handleSeek = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
-    videoRef.current.currentTime = pos * duration;
-  };
+  // Handle keyboard events for fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFullscreen]);
 
   return (
-    <div className="w-full h-full bg-black rounded-2xl overflow-hidden">
+    <div 
+      ref={containerRef}
+      className={`relative w-full h-full ${isFullscreen ? 'fixed inset-0 z-50 bg-black' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <video
         ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        onLoadedMetadata={handleLoadedMetadata}
         className="w-full h-full object-cover"
       >
-        <source src="/0928.mp4" type="video/mp4" />
+        <source src="/hero-video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
-      {/* Custom Controls */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={togglePlay}
-            className="text-white hover:text-amber-400 transition-colors"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
+      {/* Fullscreen Button - Only show on hover when not in fullscreen */}
+      {!isFullscreen && isHovered && (
+        <button
+          onClick={toggleFullscreen}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                     bg-black/50 text-white rounded-full p-4 backdrop-blur-sm
+                     hover:bg-black/70 transition-all duration-300 flex items-center justify-center
+                     border border-white/20 shadow-lg hover:scale-110"
+          aria-label="Enter fullscreen"
+        >
+          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+          </svg>
+        </button>
+      )}
+
+      {/* Custom Fullscreen Controls */}
+      {isFullscreen && (
+        <div className="absolute top-4 right-4 z-50">
+          <button
+            onClick={toggleFullscreen}
+            className="bg-black/50 text-white rounded-full p-3 backdrop-blur-sm
+                      hover:bg-black/70 transition-all duration-300 flex items-center justify-center
+                      border border-white/20 shadow-lg hover:scale-110"
+            aria-label="Exit fullscreen"
           >
-            {isPlaying ? '❚❚' : '▶'}
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
-          
-          <div className="text-white text-sm">
-            {formatTime(currentTime)} / {formatTime(duration)}
-          </div>
-          
-          <div 
-            className="flex-1 h-2 bg-gray-700 rounded-full cursor-pointer overflow-hidden"
-            onClick={handleSeek}
-          >
-            <div 
-              className="h-full bg-amber-400"
-              style={{ 
-                width: duration ? `${(currentTime / duration) * 100}%` : '0%',
-              }}
-            />
-          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
