@@ -1,4 +1,4 @@
-import { Instrument_Sans } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { Honk } from 'next/font/google';
 import localFont from 'next/font/local';
 import "./globals.css";
@@ -7,6 +7,13 @@ const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-instrument-sans",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-instrument-serif",
+  weight: '400',
 });
 
 const ditty = localFont({
@@ -49,7 +56,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${instrumentSans.variable} ${ditty.variable} ${honk.variable}`}>
+    <html lang="en" className={`${instrumentSans.variable} ${instrumentSerif.variable} ${ditty.variable} ${honk.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />

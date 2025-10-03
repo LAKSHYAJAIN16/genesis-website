@@ -26,20 +26,20 @@ export default function TrophyCube() {
     scene.background = null;
     sceneRef.current = scene;
     
-    // Camera setup - positioned further back to accommodate larger trophy
+    // Camera setup - positioned to accommodate the trophy
     const camera = new THREE.PerspectiveCamera(
       45,
       container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 0.5, 6); // Moved camera back
+    camera.position.set(0, 0.5, 6);
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
     
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ 
-      alpha: true, 
+      alpha: true,
       antialias: true,
       powerPreference: 'high-performance'
     });
@@ -50,25 +50,36 @@ export default function TrophyCube() {
     rendererRef.current = renderer;
     
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
     
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(1, 1, 1);
-    directionalLight.castShadow = true;
-    scene.add(directionalLight);
+    // Key light
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    keyLight.position.set(5, 5, 5);
+    keyLight.castShadow = true;
+    scene.add(keyLight);
     
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
-    fillLight.position.set(-1, 0.5, -1);
+    // Fill light
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    fillLight.position.set(-5, 3, -5);
     scene.add(fillLight);
     
-    // Controls with orbit controls enabled
+    // Back light
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    backLight.position.set(-3, -2, -5);
+    scene.add(backLight);
+    
+    // Hemisphere light
+    const hemiLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
+    scene.add(hemiLight);
+    
+    // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = true;
     controls.enablePan = false;
     controls.enableRotate = true;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = autoRotateSpeed; // Speed up the auto-rotation
+    controls.autoRotateSpeed = autoRotateSpeed;
     
     // Mount renderer
     mountRef.current.appendChild(renderer.domElement);
@@ -90,24 +101,18 @@ export default function TrophyCube() {
               if (child.isMesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
-                // Enhanced metallic gold material
+                
                 if (child.material) {
-                  // Create a new MeshStandardMaterial with gold properties
                   const goldMaterial = new THREE.MeshStandardMaterial({
                     color: 0xFFD700,
-                    metalness: 1.0,
-                    roughness: 0.1,
-                    emissive: 0x332200,
-                    emissiveIntensity: 0.2,
-                    envMapIntensity: 2.0
+                    metalness: 0.7,
+                    roughness: 0.3,
+                    emissive: 0x000000,
+                    emissiveIntensity: 0.1,
+                    envMapIntensity: 1.5
                   });
                   
-                  // Replace the existing material with our new one
                   child.material = goldMaterial;
-                  
-                  // Set material properties
-                  child.castShadow = true;
-                  child.receiveShadow = true;
                 }
               }
             });
@@ -115,12 +120,12 @@ export default function TrophyCube() {
             // Center and scale the model
             const box = new THREE.Box3().setFromObject(object);
             const center = box.getCenter(new THREE.Vector3());
-            object.position.sub(center);
-            
             const size = box.getSize(new THREE.Vector3());
             const maxDim = Math.max(size.x, size.y, size.z);
-            const scale = 2.5 / maxDim; // Increased scale for larger trophy
+            const scale = 2.5 / maxDim;
+            
             object.scale.set(scale, scale, scale);
+            object.position.y = -1;
             
             scene.add(object);
             modelRef.current = object;
@@ -141,7 +146,6 @@ export default function TrophyCube() {
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate);
       
-      // Update controls for auto-rotation
       if (controls) {
         controls.update();
       }
@@ -183,42 +187,6 @@ export default function TrophyCube() {
         renderer.dispose();
       }
     };
-  }, []);
-
-  // Handle cursor style changes
-  useEffect(() => {
-    const handleMouseEnter = () => {
-      document.body.style.cursor = 'grab';
-    };
-    
-    const handleMouseDown = () => {
-      document.body.style.cursor = 'grabbing';
-    };
-    
-    const handleMouseUp = () => {
-      document.body.style.cursor = 'grab';
-    };
-    
-    const handleMouseLeave = () => {
-      document.body.style.cursor = 'default';
-    };
-    
-    const container = mountRef.current;
-    if (container) {
-      container.style.cursor = 'grab';
-      container.addEventListener('mouseenter', handleMouseEnter);
-      container.addEventListener('mousedown', handleMouseDown);
-      container.addEventListener('mouseup', handleMouseUp);
-      container.addEventListener('mouseleave', handleMouseLeave);
-      
-      return () => {
-        container.removeEventListener('mouseenter', handleMouseEnter);
-        container.removeEventListener('mousedown', handleMouseDown);
-        container.removeEventListener('mouseup', handleMouseUp);
-        container.removeEventListener('mouseleave', handleMouseLeave);
-        document.body.style.cursor = 'default';
-      };
-    }
   }, []);
 
   return (

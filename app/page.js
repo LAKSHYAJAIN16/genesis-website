@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Poppins } from 'next/font/google';
+import { Poppins, Instrument_Serif } from 'next/font/google';
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400', // Regular weight
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-instrument-serif',
+});
 import { motion } from 'framer-motion';
 import PrizesSection from '../components/PrizesSection';
 import AboutSection from '../components/AboutSection';
@@ -10,6 +17,8 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import TrophyCube from '@/components/TrophyCube';
 import VideoBackground from '@/components/VideoBackground';
+import NoiseOverlay from '@/components/NoiseOverlay';
+import AuroraBackground from '@/components/AuroraBackground';
 
 const styles = `
   html { scroll-behavior: smooth; }
@@ -53,7 +62,6 @@ export default function Home() {
         setCountdown({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
           hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000)
         });
       }
@@ -63,14 +71,18 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen bg-black text-white relative overflow-hidden ${poppins.className}`}>
+    <div className={`min-h-screen bg-black text-white relative overflow-hidden ${poppins.className} ${instrumentSerif.variable} font-sans`}>
       <style jsx>{styles}</style>
-
+      <div className="fixed inset-0 z-0">
+        <AuroraBackground className="opacity-70" />
+        <NoiseOverlay opacity={0.1} />
+      </div>
+      
       {/* Navbar */}
-      <Navbar className="relative z-10" />
+      <Navbar className="relative z-20" />
 
       {/* Hero Section */}
-      <section className="mt-8 relative px-8 py-20 z-10">
+      <section className="relative px-8 py-20 z-10">
         <div className={`w-full max-w-7xl mx-auto transition-opacity duration-1000 ${showHero ? 'opacity-100' : 'opacity-0'}`}>
           <div className="flex flex-col lg:flex-row gap-12 items-start">
             {/* Left Side - Text Content */}
@@ -122,7 +134,7 @@ export default function Home() {
                         fill="none"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        marker-end="url(#arrowhead)"
+                        markerEnd="url(#arrowhead)"
                       />
                     </g>
                   </svg>
@@ -227,6 +239,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
       {/* About Section */}
       <AboutSection />
 
