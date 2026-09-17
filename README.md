@@ -1,60 +1,22 @@
 # Genesis
 
-The marketing and registration site for **Genesis**, a Hack Club-affiliated hackathon ("idea to startup in 48 hours") held October 15–17 in Toronto. It's a Next.js single-page marketing site with a retro/cyberpunk visual theme, a 3D trophy centerpiece, an application form backed by Firebase, and a companion "Summer" program waitlist page.
+The marketing and registration site for Genesis, a Hack Club-affiliated hackathon I'm running — "idea to startup in 48 hours," October 15-17 in Toronto. It's a single-page Next.js site with a retro/cyberpunk look, a 3D trophy sitting front and center, and an application form backed by Firebase.
 
-## Features
+## What's on it
 
-- **Landing page** (`app/page.js`) — hero section with a live countdown timer, event details (date/location), an interactive 3D trophy (`components/TrophyCube.js`, via `@react-three/fiber`/`@react-three/drei`/`three`), About, Prizes, and FAQ sections, all under a retro CRT/scanline visual theme
-- **Application form** (`/application`) — collects applicant details (name, contact, school, T-shirt size, dietary needs, GitHub/LinkedIn, project idea), checks for a duplicate email before submitting, and shows loading/success screens
-- **Firestore-backed submissions** — `POST /api/submit-application` writes applications to the `applications` Firestore collection; `GET /api/check-email` queries that collection to prevent duplicate signups
-- **Summer program waitlist** (`/summer`) — a standalone email signup page; `POST /api/join-waitlist` writes entries to the `summerWaitlist` Firestore collection
-- **Robot demo page** (`/robot`) — a standalone 3D scene (`components/Robot.js`) where a robot's head follows the cursor
-- **Animated backgrounds** — several interchangeable background components (`AuroraBackground`, `BuildingsBackground`, `SmoothBackground`, `VideoBackground`, `AnimatedBackground`, `NoiseOverlay`) for different pages/sections
+The landing page has a hero with a live countdown, event details, the 3D trophy (built with `@react-three/fiber`/`drei`/three.js), and the usual About/Prizes/FAQ sections — all wrapped in a CRT/scanline retro theme I wanted for the vibe. There's also a `/robot` page just for fun, a standalone 3D scene where a robot's head tracks your cursor.
 
-## Tech Stack
+The application form at `/application` collects the basics (name, contact, school, shirt size, dietary needs, GitHub/LinkedIn, project idea), checks for a duplicate email before letting you submit, and writes to a Firestore `applications` collection. There's also a `/summer` waitlist page for a companion program — same idea, just an email signup writing to a separate `summerWaitlist` collection.
 
-- [Next.js 15](https://nextjs.org) (App Router)
-- [React 19](https://react.dev)
-- [Firebase](https://firebase.google.com/) (Firestore, client SDK) for application/waitlist storage
-- [Three.js](https://threejs.org/) via `@react-three/fiber` and `@react-three/drei` for the 3D trophy and robot scenes
-- [Framer Motion](https://www.framer.com/motion/) for animation
-- [Tailwind CSS 4](https://tailwindcss.com/)
-- `react-slick` / `slick-carousel` for carousels
-- `react-icons`
+Stack is Next.js 15, React 19, Firebase (Firestore) for storage, Three.js for the 3D stuff, Framer Motion for animation, and Tailwind. A handful of interchangeable animated background components exist for different sections (aurora, buildings, video, noise overlay, etc.) — I was experimenting with which one looked best where.
 
-## Project Structure
-
-```
-app/
-  page.js                        # Landing page (hero, about, prizes, FAQ)
-  application/page.js             # Hackathon application form
-  summer/page.js                  # Summer program waitlist signup
-  robot/page.js                   # 3D robot cursor-follow demo
-  api/
-    submit-application/route.js   # POST — writes to Firestore "applications"
-    check-email/route.js          # GET  — checks for a duplicate application email
-    join-waitlist/route.js        # POST — writes to Firestore "summerWaitlist"
-components/                       # Section, background, and 3D components
-lib/
-  firebase.js                     # Firebase app/Firestore client initialization
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (a recent LTS version)
-- A Firebase project with Firestore enabled
-
-### Install
+## Running it
 
 ```bash
 npm install
 ```
 
-### Configure environment variables
-
-Create `.env.local` with your Firebase web app config (Firebase Console → Project Settings → General → Your apps):
+You'll need a Firebase project with Firestore turned on. Grab the web app config from Firebase Console → Project Settings → Your apps, and put it in `.env.local`:
 
 ```
 NEXT_PUBLIC_FIREBASE_API_KEY=
@@ -66,27 +28,16 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
 ```
 
-These are read by `lib/firebase.js` to initialize the Firestore client used by the API routes.
-
-### Run the dev server
+`lib/firebase.js` picks these up to init the Firestore client the API routes use. Then:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+and open `http://localhost:3000`. `npm run build && npm run start` for production.
 
-### Build for production
+## API routes
 
-```bash
-npm run build
-npm run start
-```
-
-## API
-
-| Route | Method | Purpose |
-|---|---|---|
-| `/api/submit-application` | POST | Writes a hackathon application (with `submittedAt` timestamp and `status: 'submitted'`) to the `applications` Firestore collection |
-| `/api/check-email` | GET (`?email=`) | Returns `{ exists: boolean }` — whether an application with that email already exists |
-| `/api/join-waitlist` | POST (`{ email }`) | Writes an email to the `summerWaitlist` Firestore collection |
+- `POST /api/submit-application` — writes a hackathon application (with a timestamp and `status: 'submitted'`) to the `applications` collection
+- `GET /api/check-email?email=` — returns `{ exists: boolean }` for duplicate-email checking
+- `POST /api/join-waitlist` — writes an email to the `summerWaitlist` collection
