@@ -1,8 +1,8 @@
 # Genesis
 
-> Marketing + registration site for Genesis, my Hack Club-affiliated hackathon.
+> "Idea to startup in 48 hours." October 15-17, Toronto.
 
-"Idea to startup in 48 hours," October 15-17 in Toronto. A single-page Next.js site with a retro/cyberpunk look, a 3D trophy front and center, and an application form backed by Firebase.
+That's the pitch for Genesis, a Hack Club-affiliated hackathon, and this repo is its marketing and registration site — a single-page Next.js app with a retro/cyberpunk look, a 3D trophy front and center, and an application form backed by Firebase.
 
 - Hero with live countdown, event details, a 3D trophy (`@react-three/fiber`/`drei`/three.js), About/Prizes/FAQ, all in a CRT/scanline theme
 - `/robot` — a standalone 3D scene where a robot's head tracks your cursor, just for fun
